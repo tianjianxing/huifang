@@ -1,0 +1,23 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/logs/logs",
+    "pages/loan/loan",
+    "pages/demo/demo",
+    "component/space/space",
+    "pages/loan/calculator/calculator",
+    "pages/loan/help/help",
+    "pages/loan/service/service",
+    "pages/loan/suggest/suggest",
+    "pages/loan/result/result"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "WeChat",
+    "navigationBarTextStyle": "black"
+  },
+  
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

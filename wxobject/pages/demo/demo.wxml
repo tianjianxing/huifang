@@ -1,0 +1,105 @@
+<!--pages/demo/demo.wxml-->
+<!-- <view>
+  <view>{{year}}年{{month}}月{{day}}日</view>
+  <picker-view indicator-style="height: 50px;" style="width: 100%; height: 300px;" value="{{value}}" bindchange="bindChange">
+    <picker-view-column>
+      <view wx:for="{{years}}" style="line-height: 50px">{{item}}年</view>
+    </picker-view-column>
+    <picker-view-column>
+      <view wx:for="{{months}}" style="line-height: 50px">{{item}}月</view>
+    </picker-view-column>
+    <picker-view-column>
+      <view wx:for="{{days}}" style="line-height: 50px">{{item}}日</view>
+    </picker-view-column>
+  </picker-view>
+</view> -->
+
+<!-- // 使用时，可插入选择器标题 -->
+<!-- <space range="{{val}}" title="{{['标题1','标题2']}}" bindfinish="finishHandler" is-shadow="{{true}}">
+    <text>从底部弹起的滚动选择器</text>
+</space> -->
+
+<!-- // space.wxml -->
+<!-- <view>
+    <button bindtap='pickerHandler'>从底部弹起的滚动选择器</button>
+
+    <view class='com-picker-view {{pickerShow}}'>
+        <view class='com-picker-title'>
+            <view class='com-picker-cancel' bindtap='pickerCancel'>取消</view>
+            <view class='com-picker-result'>111</view>
+            <view class='com-picker-finish' bindtap='pickerFinish'>完成</view>
+        </view>
+        <view class='com-title' wx:if="{{propTitle.length!=0}}">
+            <view wx:for="{{title}}" wx:key="{{index}}">{{item}}</view>
+        </view>
+        <picker-view indicator-style="height: 40px;" style="width: 100%; height: 200px;" value="{{value}}" bindchange="bindChange">
+            <picker-view-column  wx:for="{{range}}" wx:key="{{index}}">
+                <view wx:for="{{item}}" wx:key="key" wx:for-item="a" style="line-height: 40px">{{a}}</view>
+            </picker-view-column>
+        </picker-view>
+    </view>
+
+    <view class='com-picker-shadow {{pickerShow}}' bindtap='pickerHandler' wx:if="{{isShadow}}"></view> 
+
+</view> -->
+
+<!-- <view class="section">
+<view class="section__title">普通选择器</view>
+  <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+    <view class="picker">
+      当前选择：{{array[index]}}
+    </view>
+  </picker>
+</view>
+<view class="section">
+  <view class="section__title">多列选择器</view>
+  <picker mode="multiSelector" bindchange="bindMultiPickerChange" bindcolumnchange="bindMultiPickerColumnChange" value="{{multiIndex}}" range="{{multiArray}}">
+    <view class="picker">
+      当前选择：{{multiArray[0][multiIndex[0]]}}，{{multiArray[1][multiIndex[1]]}}，{{multiArray[2][multiIndex[2]]}}
+    </view>
+  </picker>
+</view>
+<view class="section">
+  <view class="section__title">时间选择器</view>
+  <picker mode="time" value="{{time}}" start="09:01" end="21:01" bindchange="bindTimeChange">
+    <view class="picker">
+      当前选择: {{time}}
+    </view>
+  </picker>
+</view>
+
+<view class="section">
+  <view class="section__title">日期选择器</view>
+  <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+    <view class="picker">
+      当前选择: {{date}}
+    </view>
+  </picker>
+</view>
+<view class="section">
+  <view class="section__title">省市区选择器</view>
+  <picker mode="region" bindchange="bindRegionChange" value="{{region}}" custom-item="{{customItem}}">
+    <view class="picker">
+      当前选择：{{region[0]}}，{{region[1]}}，{{region[2]}}
+    </view>
+  </picker>
+</view> -->
+
+
+
+<view class="modals modals-bottom-dialog" hidden="{{hideModal}}">
+    <view class="modals-cancel" bindtap="hideModal"></view>
+    <view class="bottom-dialog-body bottom-pos" animation="{{animationData}}"></view>
+</view>
+
+<button bindtap="showModal">点我</button>
+
+
+
+
+<view class="empty_container" wx:if='{{6 > 0}}'>
+  <view class="empty_container" wx:for='{{6 - 0}}' wx:key='unique'>
+    <text class="common_label">问题</text>
+    <input class="common_input" selection-start="3" type='text' placeholder='请输入问题'></input>
+  </view>
+</view>

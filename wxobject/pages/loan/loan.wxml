@@ -1,0 +1,429 @@
+<!-- 三种贷款方式的导航  -->
+<view class='topTabSwiper'>
+  <view class='tab {{currentData == 0 ? "tabBorer" : ""}}' data-current = "0" bindtap='checkCurrent'>商业贷款</view>
+  <view class='tab {{currentData == 1 ? "tabBorer" : ""}}' data-current = "1" bindtap='checkCurrent'>组合贷款</view>
+  <view class='tab {{currentData == 2 ? "tabBorer" : ""}}' data-current = "2" bindtap='checkCurrent'>公积金贷款</view>
+</view>
+<!-- 商业贷款模块start -->
+<swiper current="{{currentData}}" class="swiper" style="height:880px;" duration="300" bindchange="bindchangeLoanType">
+<form class="main" bindreset="formReset">
+  <swiper-item>
+    <view class="swiperCon">
+      <view class="rowContain">
+        <view class="startTitle">
+          <text>计算方式</text>
+        </view>
+        <view class="rowMiddle">
+          <picker bindchange="formulaMode" value="{{formulaModeIndex}}" range="{{formulaModeArray}}">
+            {{formulaModeArray[formulaModeIndex]}}
+            <view class="arrow">></view>
+          </picker>
+        </view>  
+      </view>
+      <view class="rowContain" style="display:{{houseOne}}">
+        <view class="startTitle">
+          <text>房屋总价</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindblur="blurChangeHouse" value="{{houseMoney}}" placeholder="0" />
+          <view class="arrow">万</view>
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{houseOne}}">
+        <view class="startTitle">
+          <text>货款比例</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindblur="blurChangeScale" value="{{scaleNumberOne}}" />
+          <view class="arrow">成</view>
+        </view>
+      </view>
+      <view class="rowContain"  style="display:{{houseOne}}">
+        <view class="startTitle">
+          <text>商贷金额</text>
+        </view>
+        <view class="rowMiddle">
+          <input disabled="true" class="moneyCommercialTwo" type="text" placeholder="0" value="{{houseMoney * 1 * scaleNumberOne * 1 / 10}}" />
+          <view class="arrow">万</view>
+        </view>
+      </view>
+      <view class="rowContain"  style="display:{{houseTwo}}">
+        <view class="startTitle">
+          <text>商贷金额</text>
+        </view>
+        <view class="rowMiddle">
+          <input bindinput="allMoneyChangeCommercialTwo" class="moneyCommercial" type="text" placeholder="0" value="" />
+          <view class="arrow">万</view>
+        </view>
+      </view>
+      <view class="rowContain">
+        <view class="startTitle">
+          <text>商贷年限</text>
+        </view>
+        <view class="rowMiddle loan_years_num">
+          <picker bindchange="commercialYearsChange" value="{{commercialYearsIndex}}" range="{{commercialYears}}" range-key="commercialName">
+            {{commercialYears[commercialYearsIndex]['commercialName'] || '30年'}}
+            <view class="arrow">></view>
+          </picker>
+        </view>
+      </view>
+      <view class="rowContain">
+        <view class="startTitle">
+          <text>利率方式</text>
+        </view>
+        <view class="rowMiddle">
+          <picker bindchange="interestRateTypeNew" value="{{interestRateTypeNewIndex}}" range="{{interestRateTypeNewArray}}">
+            {{interestRateTypeNewArray[interestRateTypeNewIndex]}}
+            <view class="arrow">></view>
+          </picker>
+        </view>  
+      </view>
+      <view class="rowContain" style="display:{{wayOne}}">
+        <view class="startTitle">
+          <text>LPR</text>
+          <text bindtap="showHelpLpr"> �</text>
+        </view>
+        <view class="rowMiddle">
+          <input bindblur="blurChangeLpr" type="text" value="{{lprNumberOne}}" />
+          <view class="arrow">%</view>
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{wayOne}}">
+        <view class="startTitle">
+          <text>基点</text>
+          <text bindtap="showHelpBase"> �</text>
+        </view>
+        <view class="rowMiddle">
+          <input bindblur="blurChangeBase" type="text" value="{{basePointOne}}" />
+          <view class="arrow">BP(‱)</view>
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{wayOne}}">
+        <view class="startTitle">
+          <text>商贷利率</text>
+        </view>
+        <view class="rowMiddle rowMiddleLong">
+          <text class="formulaContain">
+            <text class="formulaValue">{{lprNumberOne}}%</text>
+            <text class="operator">+</text>
+            <text class="formulaValue">{{basePointOne}}‱</text>
+            <text class="operator">=</text>
+          </text>
+          <view class="arrow">%</view>
+          <input class="inputLast" type="text" value="{{lprNumberOne * 1 + basePointOne * 1 / 100}}" />
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{wayTwo}}">
+        <view class="startTitle">
+          <text>商贷利率</text>
+        </view>
+        <view class="rowMiddle rowMiddleLong">
+          <picker bindchange="interestRateTypeOld" value="{{interestRateTypeOldIndex}}" range="{{interestRateTypeOldArray}}">
+            {{interestRateTypeOldArray[interestRateTypeOldIndex]}}
+            <view class="arrow arrow3">></view>
+          </picker>
+        </view>
+      </view>
+      <view class="calculateButton">
+        <button bindtap="clickCalculateOne">开始计算</button>
+      </view>     
+      <view class="bottomContain">
+        <navigator class="help" url="/pages/loan/help/help" hover-class="navigator-hover">帮助</navigator>
+        <navigator class="suggest" url="/pages/loan/suggest/suggest" hover-class="navigator-hover">反馈建议</navigator>
+      </view>
+      <view class="bottomButton">
+        <button>
+          <text>更多贷款问题</text>
+          <text class="answer">汇房经纪人专业解答</text>
+          <navigator class="consult" url="/pages/loan/service/service" hover-class="navigator-hover">去咨询</navigator>
+        </button>
+      </view>
+    </view>
+  </swiper-item>
+<!-- 商业贷款模块end -->
+<!-- 组合贷款模块start -->
+  <swiper-item>
+    <view class="swiperCon">
+      <view class="rowContain">
+        <view class="startTitle">
+          <text>计算方式</text>
+        </view>
+        <view class="rowMiddle">
+          <picker bindchange="formulaMode" value="{{formulaModeIndex}}" range="{{formulaModeArray}}">
+            {{formulaModeArray[formulaModeIndex]}}
+            <view class="arrow">></view>
+          </picker>
+        </view>  
+      </view>
+      <view class="rowContain" style="display:{{houseOne}}">
+        <view class="startTitle">
+          <text>房屋总价</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindblur="blurChangeHouseThree" value="{{houseMoneyTwo}}" placeholder="0" />
+          <view class="arrow">万</view>
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{houseOne}}">
+        <view class="startTitle">
+          <text>货款比例</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindblur="blurChangeScaleThree" value="{{scaleNumberTwo}}" />
+          <view class="arrow">成</view>
+        </view>
+      </view>
+      <view class="rowContain rowContainEmpty" style="display:{{houseOne}}">
+        <view class="startTitle">
+          <text>贷款总额</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" disabled="true"  value="{{houseMoneyTwo * scaleNumberTwo / 10}}" class="moneyCommercialFour" placeholder="0" />
+          <view class="arrow">万</view>
+        </view>
+      </view>
+      <view class="rowContain rowContainEmpty" style="display:{{houseTwo}}">
+        <view class="startTitle">
+          <text>贷款总额</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindinput="allMoneyChangeCommercialThree" bindblur="blurChangeLoanAllMoney" class="moneyCommercialThree" placeholder="0" value="" />
+          <view class="arrow">万</view>
+        </view>
+      </view>
+      <view class="empty"></view>
+      <view class="rowContain" style="display:{{houseOne}}">
+        <view class="startTitle">
+          <text>公积金金额</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindinput="allMoneyChangeReserveFund" class="ReserveFundFour" bindblur="blurChangeReserveFundMoneyTwo" value="{{numReserveFundTwo}}" placeholder="0" />
+          <view class="arrow">万</view>
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{houseTwo}}">
+        <view class="startTitle">
+          <text>公积金金额</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindinput="allMoneyChangeReserveFundTwo" class="ReserveFundThree" bindblur="blurChangeReserveFundMoney" value="{{numReserveFundOne}}" placeholder="0" />
+          <view class="arrow">万</view>
+        </view>
+      </view>  
+      <view class="rowContain">
+        <view class="startTitle">
+          <text>公积金年限</text>
+        </view>
+        <view class="rowMiddle">
+          <picker bindchange="reserveFundYearsChangeTwo" value="{{reserveFundYearsIndexTwo}}" range="{{reserveFundYearsTwo}}" range-key="reserveFundNameTwo">
+            {{reserveFundYearsTwo[reserveFundYearsIndexTwo]['reserveFundNameTwo'] || '30年'}}
+            <view class="arrow">></view>
+          </picker>
+        </view>
+      </view>
+      <view class="rowContain rowContainReserveRate">
+        <view class="startTitle">
+          <text>公积金利率</text>
+        </view>
+        <view class="rowMiddle rowMiddleLong">
+          <picker bindchange="reserveFundInterestRate" value="{{reserveFundInterestRateIndex}}" range="{{reserveFundInterestRateArray}}">
+            {{reserveFundInterestRateArray[reserveFundInterestRateIndex]}}
+            <view class="arrow arrow3">></view>
+          </picker>
+        </view>  
+      </view>
+      <view class="empty"></view>
+      <view class="rowContain" style="display:{{houseOne}}">
+        <view class="startTitle">
+          <text>商贷金额</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindinput="allMoneyChangeCommercial" bindblur="blurChangeCommercialMoneyTwo" value="{{numCommercialTwo}}" placeholder="0" />
+          <view class="arrow">万</view>
+        </view>
+      </view> 
+      <view class="rowContain" style="display:{{houseTwo}}">
+        <view class="startTitle">
+          <text>商贷金额</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindinput="allMoneyChangeCommercialFour" bindblur="blurChangeCommercialMoney" value="{{numCommercialOne}}" placeholder="0" />
+          <view class="arrow">万</view>
+        </view>
+      </view> 
+      <view class="rowContain">
+        <view class="startTitle">
+          <text>商贷年限</text>
+        </view>
+        <view class="rowMiddle loan_years_num">
+          <picker bindchange="commercialYearsChangeTwo" value="{{commercialYearsIndexTwo}}" range="{{commercialYearsTwo}}" range-key="commercialNameTwo">
+            {{commercialYearsTwo[commercialYearsIndexTwo]['commercialNameTwo'] || '30年'}}
+            <view class="arrow">></view>
+          </picker>
+        </view>
+      </view>
+      <view class="rowContain">
+        <view class="startTitle">
+          <text>利率方式</text>
+        </view>
+        <view class="rowMiddle">
+          <picker bindchange="interestRateTypeNewTwo" value="{{interestRateTypeNewTwoIndex}}" range="{{interestRateTypeNewTwoArray}}">
+            {{interestRateTypeNewTwoArray[interestRateTypeNewTwoIndex]}}
+            <view class="arrow">></view>
+          </picker>
+        </view>  
+      </view>
+      <view class="rowContain" style="display:{{wayThree}}">
+        <view class="startTitle">
+          <text>LPR</text>
+          <text bindtap="showHelpLpr"> �</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindblur="blurChangeLprTwo" value="{{lprNumberTwo}}" />
+          <view class="arrow">%</view>
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{wayThree}}">
+        <view class="startTitle">
+          <text>基点</text>
+          <text bindtap="showHelpBase"> �</text>
+        </view>
+        <view class="rowMiddle">
+          <input bindblur="blurChangeBaseTwo" type="text" value="{{basePointTwo}}"  />
+          <view class="arrow">BP(‱)</view>
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{wayThree}}">
+        <view class="startTitle">
+          <text>商贷利率</text>
+        </view>
+        <view class="rowMiddle rowMiddleLong">
+          <text class="formulaContain">
+            <text class="formulaValue">{{lprNumberTwo}}%</text>
+            <text class="operator">+</text>
+            <text class="formulaValue">{{basePointTwo}}‱</text>
+            <text class="operator">=</text>
+          </text>
+          <view class="arrow">%</view>
+          <input class="inputLast" type="text" value="{{lprNumberTwo * 1 + basePointTwo * 1 / 100}}" />
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{wayFour}}">
+        <view class="startTitle">
+          <text>商贷利率</text>
+        </view>
+        <view class="rowMiddle rowMiddleLong">
+          <picker bindchange="interestRateTypeOldTwo" value="{{interestRateTypeOldTwoIndex}}" range="{{interestRateTypeOldTwoArray}}">
+            {{interestRateTypeOldTwoArray[interestRateTypeOldTwoIndex]}}
+            <view class="arrow arrow3">></view>
+          </picker>
+        </view>
+      </view>
+      <view class="calculateButton">
+        <button bindtap="clickCalculateTwo">开始计算</button>
+      </view>     
+      <view class="bottomContain">
+        <navigator class="help" url="/pages/loan/help/help" hover-class="navigator-hover">帮助</navigator>
+        <navigator class="suggest" url="/pages/loan/suggest/suggest" hover-class="navigator-hover">反馈建议</navigator>
+      </view>
+      <view class="bottomButton">
+        <button>
+          <text>更多贷款问题</text>
+          <text class="answer">汇房经纪人专业解答</text>
+          <navigator class="consult" url="/pages/loan/service/service" hover-class="navigator-hover">去咨询</navigator>
+        </button>
+      </view>
+    </view>
+  </swiper-item>
+  <!-- 组合贷款模块end -->
+  <!-- 公积金贷款模块start -->
+  <swiper-item>
+    <view class="swiperCon">
+      <view class="rowContain">
+        <view class="startTitle">
+          <text>计算方式</text>
+        </view>
+        <view class="rowMiddle">
+          <picker bindchange="formulaMode" value="{{formulaModeIndex}}" range="{{formulaModeArray}}">
+            {{formulaModeArray[formulaModeIndex]}}
+            <view class="arrow">></view>
+          </picker>
+        </view>  
+      </view>
+      <view class="rowContain" style="display:{{houseOne}}">
+        <view class="startTitle">
+          <text>房屋总价</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindblur="blurChangeHouseTwo" value="{{houseMoneyThree}}" placeholder="0" />
+          <view class="arrow">万</view>
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{houseOne}}">
+        <view class="startTitle">
+          <text>货款比例</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindblur="blurChangeScaleTwo" value="{{scaleNumberThree}}" />
+          <view class="arrow">成</view>
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{houseOne}}">
+        <view class="startTitle">
+          <text>公积金金额</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" disabled="true" class="moneyReserveFundTwo" value="{{houseMoneyThree * scaleNumberThree / 10}}" placeholder="0" />
+          <view class="arrow">万</view>
+        </view>
+      </view>
+      <view class="rowContain" style="display:{{houseTwo}}">
+        <view class="startTitle">
+          <text>公积金金额</text>
+        </view>
+        <view class="rowMiddle">
+          <input type="text" bindinput="allMoneyChangeReserveFundThree" class="moneyReserveFundOne" value="" placeholder="0" />
+          <view class="arrow">万</view>
+        </view>
+      </view>
+      <view class="rowContain">
+        <view class="startTitle">
+          <text>公积金年限</text>
+        </view>
+        <view class="rowMiddle">
+          <picker bindchange="reserveFundYearsChange" value="{{reserveFundYearsIndex}}" range="{{reserveFundYears}}" range-key="reserveFundName">
+            {{reserveFundYears[reserveFundYearsIndex]['reserveFundName'] || '30年'}}
+            <view class="arrow">></view>
+          </picker>
+        </view>
+      </view>
+      <view class="rowContain rowContainReserveRate rowContainReserveRateTwo">
+        <view class="startTitle">
+          <text>公积金利率</text>
+        </view>
+        <view class="rowMiddle rowMiddleLong">
+          <picker bindchange="reserveFundInterestRateTwo" value="{{reserveFundInterestRateTwoIndex}}" range="{{reserveFundInterestRateTwoArray}}">
+            {{reserveFundInterestRateTwoArray[reserveFundInterestRateTwoIndex]}}
+            <view class="arrow arrow3">></view>
+          </picker>
+        </view>  
+      </view>     
+      <view class="calculateButton">
+        <button bindtap="clickCalculateThree">开始计算</button>
+      </view>     
+      <view class="bottomContain">
+        <navigator class="help" url="/pages/loan/help/help" hover-class="navigator-hover">帮助</navigator>
+        <navigator class="suggest" url="/pages/loan/suggest/suggest" hover-class="navigator-hover">反馈建议</navigator>
+      </view>
+      <view class="bottomButton">
+        <button>
+          <text>更多贷款问题</text>
+          <text class="answer">汇房经纪人专业解答</text>
+          <navigator class="consult" url="/pages/loan/service/service" hover-class="navigator-hover">去咨询</navigator>
+        </button>
+      </view>
+    </view>
+  </swiper-item>
+  <!-- 公积金贷款模块end -->
+</form>
+</swiper>

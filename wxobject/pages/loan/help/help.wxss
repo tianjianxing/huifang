@@ -1,0 +1,59 @@
+.contain{
+  width: 90%;
+  margin: auto;
+}
+text,.nav{
+  display: block;
+  font-size: 14px;
+}
+.title{
+  font-weight: bolder;
+  font-size: 18px;
+  margin: 50rpx 0 20rpx 0;
+}
+.titleHeader{
+  font-weight: bolder;
+  margin: 40rpx 0 20rpx 0;
+}
+.titleMiddle{
+  display: inline;
+}
+.nav{
+  color: blue;
+  margin: 20rpx 0;
+  text-decoration: underline;
+}
+.table{
+  font-size: 14px;
+  width: 100%;
+  border: 1px solid #ccc;
+}
+.tr{
+  width: 100%;
+  display: flex;
+  justify-content: left;
+}
+.th{
+  background-color: #e7e9e9;
+}
+.th,.td{
+  width: 100%;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  padding: 20rpx 0 20rpx 20rpx;
+}
+.button{
+  margin-top: 100rpx;
+  margin-bottom: 100rpx;
+}
+.button button{
+  width: 100%;
+  background-color: #fff;
+  border: 1px solid blue;
+  color: blue;
+  text-align: center;
+  height: 30px;
+  font-size: 14px;
+  font-weight: lighter;
+  line-height: 20px;
+}

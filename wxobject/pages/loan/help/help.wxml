@@ -1,0 +1,59 @@
+<view class="contain">
+  <view>
+    <text class="title">等额本息</text>
+    <text>每月还款金额不变，其中还款的本金逐月递增，利息逐月递减。    </text>
+    <text class="title">等额本金</text>
+    <text>每月还款金额不同，首月还款金额最多，之后每月递减，其中每月还款的本金不变，利息逐月减少。</text>
+    <text class="title">贷款年限</text>
+    <text>上限30年，与主贷人年龄、房屋建成年代（房龄）有关。比如：个别银行70减年龄，60减房龄，两者取地值为贷款年限（各个银行政策不一样，请以实际贷款银行为准）。</text>
+    <text class="title">贷款成数</text>
+    <text>贷款金额与房屋总价的比例，目前一线城市基本上最高可贷6.5成，个别二三线城市最高可贷7成。</text>
+    <text class="title">贷款利率</text>
+    <text class="titleHeader">商贷利率 = LPR + 基点</text>
+    <text>自2019年10月8日起，新发放的商业住房贷款的贷款率<text class="titleHeader titleMiddle">由“贷款基准利率（4.9%）”转换为“贷款市场报价利率（LPR）”。</text>在LPR的基础上增加基点来确定最终的商贷利率；LPR每月20日（遇节假日顺延）报价一次，可在中国人民银行网站查询。
+    </text>
+    <navigator class="nav" url="../help/help" open-type="redirect">点击《房贷挂钩LPR对贷款买房有何影响》了解更多</navigator>
+  </view>
+
+  <text class="titleHeader">最新LPR：一年期4.2%，五年期4.85%</text>
+  <view class="table">
+    <view class="tr">
+      <view class="th">贷款年限</view>
+      <view class="th">LPR</view>
+    </view>
+    <view class="tr">
+      <view class="td">一年及以内</view>
+      <view class="td">一年期LPR</view>
+    </view>
+    <view class="tr">
+      <view class="td">一年至五年</view>
+      <view class="td">由银行自主选择</view>
+    </view>
+    <view class="tr">
+      <view class="td">五年及以上</view>
+      <view class="td">五年期LPR</view>
+    </view>
+  </view>
+
+  <text class="titleHeader">公积金利率</text>
+  <view class="table">
+    <view class="tr">
+      <view class="th">贷款年限</view>
+      <view class="th">公积金基准利率</view>
+    </view>
+    <view class="tr">
+      <view class="td">5年以内</view>
+      <view class="td">2.75%</view>
+    </view>
+    <view class="tr">
+      <view class="td">5年以上</view>
+      <view class="td">3.25%</view>
+    </view>
+  </view>
+
+  <view class="button">
+    <button bindtap="know">知道了</button>
+  </view>
+  </view>
+  
+

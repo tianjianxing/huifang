@@ -1,0 +1,293 @@
+<!-- 两种还款方式的方法 -->
+<view class="navbar">
+  <text wx:for="{{navbar}}" data-idx="{{index}}" class="item {{currentTab==index ? 'active' : ''}}" wx:key="unique" bindtap="navbarTap">{{item}}</text>
+</view>
+<!-- 商业贷款和公积金贷款计算结果出现的页面start -->
+<!-- 等额本息页面 -->
+<view class="contain" style="display:{{containOne}}">
+  <view  hidden="{{currentTab!==0}}">
+    <view class="topContain">
+      <text class="everyMonth">每月应还</text>
+      <view class="monthlyRent">
+        <text class="monthMoney">{{monthMoneyOne}}</text>
+        <view class="unit">
+          <navigator class="help" url="/pages/loan/help/help" hover-class="navigator-hover">�</navigator>
+          <text>元</text>
+        </view>
+        <text class="tip"></text>
+      </view>
+      <view class="sumUp">
+        <view>
+          <text class="font">贷款总额</text>
+          <text class="number">{{num}}万</text>
+        </view>
+        <view class="middle">
+          <text class="font">利息总额</text>
+          <text class="number">{{rateNumOne}}万</text>
+        </view>
+        <view>
+          <text class="font">贷款年限</text>
+          <text class="number">{{allYears}}年</text>
+        </view>
+      </view>
+    </view>
+    <view class="words">
+      <text>每月还款金额不变</text>
+      ，其中还款的本金逐月递增，利息逐月递减。计算结果仅供参考。
+    </view>
+    <!-- 模拟表格，非遍历生成 -->
+    <scroll-view scroll-y="true" class="table">
+      <view class="tr">
+        <view class="th tdOne">期数</view>
+        <view class="th">月供总额</view>
+        <view class="th">月供本金</view>
+        <view class="th">月供利息</view>
+        <view class="th">剩余本金</view>
+      </view>
+      <view wx:if="{{allYears > 0}}">
+        <view class="tr trrr" wx:for="{{allYears + 1}}" data-yearSub="index" wx:key="unique">
+          <view class="td tdOne">{{index + 1}}</view>
+          <view class="td">{{monthMoneyOne}}</view>
+          <view class="td">{{ygbj}}</view>
+          <view class="td">{{yglx}}</view>
+          <view class="td">{{sybj}}</view>
+        </view>
+      </view>
+      <!-- <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">52.77</view>
+        <view class="td">12.35</view>
+        <view class="td">40.42</view>
+        <view class="td">9987.65</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">52.77</view>
+        <view class="td">12.35</view>
+        <view class="td">40.42</view>
+        <view class="td">9987.65</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">52.77</view>
+        <view class="td">12.35</view>
+        <view class="td">40.42</view>
+        <view class="td">9987.65</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">52.77</view>
+        <view class="td">12.35</view>
+        <view class="td">40.42</view>
+        <view class="td">9987.65</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">52.77</view>
+        <view class="td">12.35</view>
+        <view class="td">40.42</view>
+        <view class="td">9987.65</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">52.77</view>
+        <view class="td">12.35</view>
+        <view class="td">40.42</view>
+        <view class="td">9987.65</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">52.77</view>
+        <view class="td">12.35</view>
+        <view class="td">40.42</view>
+        <view class="td">9987.65</view>
+      </view> -->
+    </scroll-view>
+  </view>
+  <!-- 等额本金页面 -->
+  <view  hidden="{{currentTab!==1}}">
+    <view class="topContain">
+      <text class="everyMonth">首月应还</text>
+      <view class="monthlyRent">
+        <text class="monthMoney">{{monthMoneyTwo}}</text>
+        <view class="unit">
+          <navigator class="help" url="/pages/loan/help/help" hover-class="navigator-hover">�</navigator>
+          <text>元</text>
+        </view>
+        <text class="tip">每月递减约0.11元</text>
+      </view>
+      <view class="sumUp">
+        <view>
+          <text class="font">贷款总额</text>
+          <text class="number">{{num}}万</text>
+        </view>
+        <view class="middle">
+          <text class="font">利息总额</text>
+          <text class="number">{{rateNumTwo}}万</text>
+        </view>
+        <view>
+          <text class="font">贷款年限</text>
+          <text class="number">{{allYears}}年</text>
+        </view>
+      </view>
+    </view>
+    <view class="words">
+      <text>每月还款金额递减0.11元</text>
+      ，其中每月还款的本金不变，利息逐月减少。计算结果仅供参考。
+    </view>
+    <scroll-view scroll-y="true" class="table">
+      <view class="tr">
+        <view class="th tdOne">期数</view>
+        <view class="th">月供总额</view>
+        <view class="th">月供本金</view>
+        <view class="th">月供利息</view>
+        <view class="th">剩余本金</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">52.77</view>
+        <view class="td">12.35</view>
+        <view class="td">40.42</view>
+        <view class="td">9987.65</view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+<!-- 商业贷款和公积金贷款计算结果出现的页面end -->
+<!-- 组合贷款计算结果出现的页面start -->
+<!-- 等额本息页面 -->
+<view class="contain" style="display:{{containTwo}}">
+  <view  hidden="{{currentTab!==0}}">
+    <view class="topContain">
+      <text class="everyMonth">每月应还</text>
+      <view class="monthlyRent">
+        <text class="monthMoney">{{monthMoneyOne}}</text>
+        <view class="unit">
+          <navigator class="help" url="/pages/loan/help/help" hover-class="navigator-hover">�</navigator>
+          <text>元</text>
+        </view>
+        <text class="tip"></text>
+      </view>
+      <view class="sumUp">
+        <view>
+          <text class="font">贷款总额</text>
+          <text class="number">{{num}}万</text>
+        </view>
+        <view class="middle">
+          <text class="font">利息总额</text>
+          <text class="number">{{rateNumOne}}万</text>
+        </view>
+        <view>
+          <text class="font">贷款年限</text>
+          <text class="number">{{allYears}}年</text>
+        </view>
+      </view>
+    </view>
+    <view class="words">
+      <text>每月还款金额不变</text>
+      ，其中还款的本金逐月递增，利息逐月递减。计算结果仅供参考。
+    </view>
+    <scroll-view scroll-y="true" class="table">
+      <view class="tr">
+        <view class="th tdOne">期数</view>
+        <view class="th">总还款金额</view>
+        <view class="th">商贷还款</view>
+        <view class="th">公积金还款</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">43.52</view>
+        <view class="td">0</view>
+        <view class="td">43.52</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">43.52</view>
+        <view class="td">0</view>
+        <view class="td">43.52</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">43.52</view>
+        <view class="td">0</view>
+        <view class="td">43.52</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">43.52</view>
+        <view class="td">0</view>
+        <view class="td">43.52</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">43.52</view>
+        <view class="td">0</view>
+        <view class="td">43.52</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">43.52</view>
+        <view class="td">0</view>
+        <view class="td">43.52</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">43.52</view>
+        <view class="td">0</view>
+        <view class="td">43.52</view>
+      </view>
+    </scroll-view>
+  </view>
+  <!-- 等额本金页面 -->
+  <view  hidden="{{currentTab!==1}}">
+    <view class="topContain">
+      <text class="everyMonth">首月应还</text>
+      <view class="monthlyRent">
+        <text class="monthMoney">{{monthMoneyTwo}}</text>
+        <view class="unit">
+          <navigator class="help" url="/pages/loan/help/help" hover-class="navigator-hover">�</navigator>
+          <text>元</text>
+        </view>
+        <text class="tip">每月递减约0.11元</text>
+      </view>
+      <view class="sumUp">
+        <view>
+          <text class="font">贷款总额</text>
+          <text class="number">{{num}}万</text>
+        </view>
+        <view class="middle">
+          <text class="font">利息总额</text>
+          <text class="number">{{rateNumTwo}}万</text>
+        </view>
+        <view>
+          <text class="font">贷款年限</text>
+          <text class="number">{{allYears}}年</text>
+        </view>
+      </view>
+    </view>
+    <view class="words">
+      <text>每月还款金额递减0.11元</text>
+      ，其中每月还款的本金不变，利息逐月减少。计算结果仅供参考。
+    </view>
+    <scroll-view scroll-y="true" class="table">
+      <view class="tr">
+        <view class="th tdOne">期数</view>
+        <view class="th">总还款金额</view>
+        <view class="th">商贷还款</view>
+        <view class="th">公积金还款</view>
+      </view>
+      <view class="tr">
+        <view class="td tdOne">1</view>
+        <view class="td">68.19</view>
+        <view class="td">68.19</view>
+        <view class="td">0</view>
+      </view>
+    </scroll-view>
+  </view>
+</view>
+<!-- 组合贷款计算结果出现的页面end -->
+<view class="bottomContain">
+  <view></view>
+  <text class="phone">打电话</text>
+  <text class="online">在线问</text>
+</view>

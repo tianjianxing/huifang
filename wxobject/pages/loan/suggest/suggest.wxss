@@ -1,0 +1,44 @@
+.title{
+  height: 50rpx;
+  padding: 50rpx 0;
+  border-top: 1px solid #c3c3c3;
+  border-bottom: 1px solid #c3c3c3;
+}
+.textOne{
+  float: left;
+  font-weight: bolder;
+  margin-left: 20rpx;
+}
+.textTwo{
+  float: right;
+  color: #c3c3c3;
+  margin-right: 20rpx;
+}
+.textBox{
+  height: 440rpx;
+  border-top: 1px solid #c3c3c3;
+  border-bottom: 1px solid #c3c3c3;
+}
+.textBox textarea{
+  padding: 20rpx;
+}
+.wordCount{
+  float: right;
+  margin-right: 30rpx;
+  color: #c3c3c3;
+  font-size: 12px;
+}
+.empty{
+  background-color: #e7e9e9;
+  height: 15rpx;
+}
+.picture{
+  height: 200rpx;
+  border-bottom: 1px solid #c3c3c3;
+}
+.button button{
+  width: 100%;
+  color: #fff;
+  font-weight: normal;
+  margin-top: 100rpx;
+}

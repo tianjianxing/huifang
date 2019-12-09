@@ -1,0 +1,22 @@
+<view class="title">
+  <text class="textOne">反馈对象</text>
+  <text class="textTwo">贷款计算器 ></text>
+</view>
+<view class="empty"></view>
+<view class="textBox">
+  <textarea placeholder="有任何想法和建议都可以告诉我们，如果是反馈问题别忘记附上截图哦~"
+          maxlength="500"
+          placeholder-class="texts"
+          auto-focus="true"
+          bindfocus="EventHandle"
+          value="{{details}}"
+          bindinput="EventInput"
+  >
+  </textarea>
+  <text class="wordCount" style="display:{{wordNum}}">{{words}}/500</text>
+</view>
+<view class="empty"></view>
+<view class="picture"></view>
+<view class="button">
+  <button class="sub" style="background-color:{{bgc}}" bindtap="btnclick">提 交</button>
+</view>

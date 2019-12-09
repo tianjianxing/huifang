@@ -1,0 +1,173 @@
+/* 顶部导航start */
+.tab{
+  float: left;
+  width: 33.3333%;
+  text-align: center;
+  padding: 30rpx 0;
+  margin-bottom: 10rpx;
+  font-weight: bolder;
+}
+.topTabSwiper{
+  border-bottom: 1px solid #ccc;
+  zoom: 1;
+}
+.topTabSwiper:after{
+  content: "";
+  clear: both;
+  display: block;
+}
+.tabBorer{
+  border-bottom: 1px solid #391ae8;
+  border-bottom-width: 10rpx;
+  color: #391ae8;
+}
+/* 顶部导航end */
+/* 所有内容结构的根标记 */
+.swiper{
+  width: 100%;
+}
+/* 每种贷款模块的根标签 */
+.swiperCon{
+  width: 90%;
+  /* height: 100%; */
+  padding: 0;
+  margin: auto;
+  /* border: 1px solid red; */
+}
+/* 每一行的根标签 */
+.rowContain{
+  height: 60rpx;
+  border-bottom: 1px solid #b7b7b7;
+  padding: 30rpx 0;
+  /* border: 1px solid red; */
+}
+/* 组合贷款模块中间的两个空隙上面那一行 */
+.rowContainEmpty,.rowContainReserveRate{
+  border-bottom: none;
+}
+/* 公积金贷款模块公积金利率 */
+.rowContainReserveRateTwo{
+  border-bottom: 1px solid #b7b7b7;
+}
+/* 组合贷款模块中间的两个空隙 */
+.empty{
+  height: 20rpx;
+  background-color: #e7e9e9;
+}
+/* 每一行的头部的标题 */
+.startTitle{
+  font-weight: bold;
+  float: left;
+  width: 200rpx;
+  /* border: 1px solid red; */
+}
+/* 每一行中间的可输入部分 */
+.rowMiddle{
+  margin-left: 20rpx;
+  float: left;
+  width: 65%;
+  /* border: 1px solid red; */
+}
+/* 每个模块的商贷利率和公积金利率的中间那部分 */
+.rowMiddleLong{
+  height: 60rpx;
+  line-height: 60rpx;
+  font-size: 30rpx;
+  /* border: 1px solid red; */
+}
+/* 每一行中间部分的input标签 */
+.rowMiddle input{
+  float: left;
+  width: 65%;
+  /* border: 1px solid red; */
+}
+/* 商贷利率那一行最后的输出值 */
+.rowMiddle .inputLast{
+  width: 100rpx;
+  float: right;
+  margin-right: 10rpx;
+  /* border: 1px solid red; */
+  text-align: right;
+}
+/* 商贷利率那一行中间的根标签 */
+.rowMiddleLong .formulaContain{
+  /* border: 1px solid red; */
+  float: left;
+  height: 55rpx;
+  width: 60%;
+}
+/* 商贷利率那一行中间的运算符 */
+.rowMiddleLong .operator{
+  width: 30rpx;
+  margin: 0 8rpx;
+  /* border: 1px solid red; */
+}
+/* 商贷利率那一行中间的两个值 */
+.rowMiddleLong .formulaValue{
+  display: inline-block;
+  width: 100rpx;
+  height: 55rpx;
+  text-align: center;
+  line-height: 55rpx;
+  /* border: 1px solid red; */
+}
+/* 每一行最后的箭头或者单位 */
+.arrow{
+  float: right;
+  /* border: 1px solid red; */
+}
+.arrow3{
+  font-size: 16px;
+}
+/* 开始计算按钮的根标签 */
+.calculateButton{
+  margin-top: 80rpx;
+}
+.calculateButton button{
+  background-color: #391ae8;
+  color: #fff;
+  width: 100%;
+}
+/* 帮助和反馈建议的根标签 */
+.bottomContain{
+  margin-top: 80rpx;
+  font-size: 30rpx;
+  color:  #391ae8;
+}
+.bottomContain .help{
+  float: left;
+}
+.bottomContain .suggest{
+  float: right;
+}
+/* 最下面的更多贷款问题按钮的根标签 */
+.bottomButton{
+  margin-top: 180rpx;
+}
+.bottomButton button{
+  width: 100%;
+  height: 150rpx;
+  border-radius: 20rpx;
+  background-color: #fff;
+  border: 1px solid #b7b7b7;
+}
+/* 最下面的更多贷款问题按钮中的去咨询 */
+.bottomButton .consult{
+  background-color: #391ae8;
+  border-radius: 50rpx;
+  color: #fff;
+  font-weight: lighter;
+  float: right;
+  margin-top: -60rpx;
+  width: 120rpx;
+  height: 40rpx;
+  font-size: 30rpx;
+}
+.bottomButton text{
+  display: block;
+}
+/* 最下面的更多贷款问题按钮中的专业解答 */
+.bottomButton .answer{
+  font-weight: normal;
+  font-size: 30rpx;
+}
