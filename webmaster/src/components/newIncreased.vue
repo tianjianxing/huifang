@@ -12,7 +12,7 @@
 	  	  </span>
 	      <div class="header">
 		    <!-- <span>产权证号：</span>
-		    <el-input class="propRegCode" v-model="inputFour"></el-input>
+		    <el-input class="propRegCodeClass" v-model="inputFour"></el-input>
 		    <span>权利人姓名：</span>
 		    <el-input class="proposer" v-model="inputTwo"></el-input>
 		    <span>证件类型：</span>
@@ -29,7 +29,7 @@
 		    <el-button type="primary" @click="extract">提取<i class="el-icon-upload el-icon--right"></i></el-button>
 		    <br> -->
 		    <span>房源查询编号：</span>
-		    <el-input class="propRegCode" v-model="inputOne"></el-input>
+		    <el-input class="propRegCodeClass" v-model="inputOne"></el-input>
 		    <span>验证码：</span>
 		    <el-input v-model="inputFive"></el-input>
 		    <el-button type="primary" @click="houseExtract">房源提取<i class="el-icon-upload el-icon--right"></i></el-button>
@@ -78,7 +78,9 @@
 		  <br>
 		  <el-collapse v-model="sellerMsg">
 			<el-collapse-item title="卖方信息" name="1">
+			<div class="msgBottomBtn">
 			  <el-button class="sellIncrease" type="primary" @click="checkSellerMsgBtn">新增<i class="el-icon-plus el-icon--right"></i></el-button>
+			</div>
 			  <template>
 			    <el-table
 			    :data="tableData"
@@ -91,7 +93,7 @@
 			        align="center">
 			      </el-table-column>
 			      <el-table-column
-			        prop="nameSeller"
+			        prop="nameSellerShow"
 			        label="姓名"
 			        width="100"
 			        align="center">
@@ -133,6 +135,7 @@
 		  <br>
 		  <el-collapse class="buyer" v-model="buyerMsg">
 			<el-collapse-item title="买方信息" name="1">
+			<div class="msgBottomBtn">
 			  <el-button class="sellIncrease" type="primary" @click="checkBuyerMsgBtn">新增<i class="el-icon-plus el-icon--right"></i></el-button>
 			  <el-button class="sellIncrease sellSelect" type="primary" @click="checkSelectBuyerMsgBtn">选择<i class="el-icon-search el-icon--right"></i></el-button>
 			  
@@ -147,6 +150,7 @@
 				</el-select>
 			  </template>
 			  <b>共有类型</b>
+			</div>
 			  <template>
 			    <el-table
 			    :data="buyerTableData"
@@ -159,7 +163,7 @@
 			        align="center">
 			      </el-table-column>
 			      <el-table-column
-			        prop="nameBuyer"
+			        prop="nameBuyerShow"
 			        label="姓名"
 			        width="100"
 			        align="center">
@@ -200,81 +204,123 @@
 			</el-collapse-item>
 		  </el-collapse>
 		  <br>
-		  <table border="1px" cellspacing="0px" class="makeBargain">
-		  	<tr>
-		  	  <td class="bgc">
-		  	  	<span>*</span>
-		  	  	成交类型
-		  	  </td>
-		  	  <td>
-		  	  	<template>
-			      <el-select v-model="makeBargainValue" placeholder="请选择">
-				  	<el-option
-				      v-for="item in makeBargainOptions"
-				      :key="item.makeBargainValue"
-				      :label="item.label"
-				      :value="item.makeBargainValue">
-				    </el-option>
-				  </el-select>
-			    </template>
-		  	  </td>
-		  	  <td class="bgc">
-		  	  	是否经纪机构受理
-		  	  </td>
-		  	  <td>
-		  	  	是
-		  	  </td>
-		  	</tr>
-		  </table>
+		  <template>
+		    <el-table
+		      :data="makeBargain"
+			  border
+			  :cell-style="addMakeBrokerageCellStyle"
+			  :header-row-style="addMakeBrokerageRowStyle"
+			  style="width: 100%">
+			  <el-table-column
+			    prop="colOne"
+			    width="170">
+			  </el-table-column>
+			  <el-table-column
+			    prop="colTwo"
+			    width="">
+				<template slot-scope="scope">
+				  <el-select v-if="scope.row.colOne == '成交类型'" v-model="makeBargainValue" placeholder="请选择">
+					<el-option
+					  v-for="item in makeBargainOptions"
+					  :key="item.makeBargainValue"
+					  :label="item.label"
+					  :value="item.makeBargainValue">
+					</el-option>
+				  </el-select>  
+			    </template>    
+			  </el-table-column>
+			  <el-table-column
+			    prop="colThree"
+				width="170">
+			  </el-table-column>
+			  <el-table-column
+			    prop="colFour"
+				width="">
+			  </el-table-column>
+			</el-table>
+		  </template>
+		  <br>
 		  <el-collapse v-model="brokerageMsg">
 			<el-collapse-item title="经纪机构信息" name="1">
-			  <table border="1px" cellspacing="0px" class="brokerageTable">
-			  	<tr>
-			  	  <td class="bgc">机构名称</td>
-			  	  <td>滨州市鸿卓经纪有限公司</td>
-			  	  <td class="bgc">统一社会信用代码</td>
-			  	  <td>91371600MA3DK3CB88</td>
-			  	</tr>
-			  	<tr>
-			      <td class="bgc">法定代表人</td>
-			      <td>路红红</td>
-			      <td class="bgc">身份证号</td>
-			      <td>372323198612070329</td>
-			  	</tr>
-			  	<tr>
-			  	  <td class="bgc">通讯地址</td>
-			  	  <td>杜店街道办事处南街商住楼B座西24号</td>
-			  	  <td class="bgc">邮政编码</td>
-			  	  <td>111</td>
-			  	</tr>
-			  	<tr>
-			  	  <td class="bgc">电子邮箱</td>
-			  	  <td>222</td>
-			  	  <td class="bgc">联系电话</td>
-			  	  <td>18754326658</td>
-			  	</tr>
-			  </table>
+			  <br>
+			  <template>
+				<el-table
+				  :data="tableBrokerage"
+				  border
+				  :cell-style="addBrokerageCellStyle"
+				  :header-row-style="addBrokerageRowStyle"
+				  style="width: 100%">
+				  <el-table-column
+				    prop="colOne"
+				    width="170">
+				  </el-table-column>
+				  <el-table-column
+				    prop="colTwo"
+				    width="">
+				  </el-table-column>
+				  <el-table-column
+				    prop="colThree"
+				    width="170">
+				  </el-table-column>
+				  <el-table-column
+				    prop="colFour"
+				    width="">
+				  </el-table-column>
+				</el-table>
+			  </template>
 			</el-collapse-item>
 		  </el-collapse>
 		  <br>
 		  <el-collapse v-model="contractMsg">
 			<el-collapse-item title="合同信息" name="1">
-			  <table border="1px" cellspacing="0px" class="contractTable">
-			  	<tr>
-			  	  <td class="bgc">
-			  	  	<span>*</span>
-			  	  	产权证号
-			  	  </td>
-			  	  <td>
-			  	  	<input type="text">
-			  	  </td>
-			  	  <td class="bgc">
-			  	  	<span>*</span>
-			  	  	行政区
-			  	  </td>
-			  	  <td>
-			  	  	<template>
-				      <el-select v-model="regionValue" placeholder="请选择">
+			<br>
+			  <template>
+				<el-table
+				  :data="tableContract"
+				  border
+				  :span-method="arraySpanMethod"
+				  :cell-style="addContractCellStyle"
+				  :header-row-style="addContractRowStyle"
+				  style="width: 100%">
+				  <el-table-column
+				    prop="colOne"
+				    width="170">
+				  </el-table-column>
+				  <el-table-column
+				    prop="colTwo"
+				    width="">
+					<template slot-scope="scope">
+			          <el-input v-model="propRegCode" v-if="scope.row.colOne == '产权证号'">
+			          </el-input>
+			          <el-input v-model="totalAmount" v-else-if="scope.row.colOne == '成交金额'">
+			          </el-input>
+			          <el-input v-model="downPaymentAmount" v-else-if="scope.row.colOne == '首付款'">
+			          </el-input>
+			          <el-input v-model="sellerCommAmount" v-else-if="scope.row.colOne == '卖方佣金金额'">
+			          </el-input>
+			          <el-input v-model="otherStipulation" type="textarea" v-else-if="scope.row.colOne == '其他约定'">
+			          </el-input>
+			          <el-radio v-model="isProvidentFund" v-if="scope.row.colOne == '是否公积金贷款'" label="1">否</el-radio>
+  					  <el-radio v-model="isProvidentFund" v-if="scope.row.colOne == '是否公积金贷款'" label="2">是</el-radio>
+  					  <el-radio v-model="isBusLoan" v-if="scope.row.colOne == '是否商业贷款'" label="1">否</el-radio>
+  					  <el-radio v-model="isBusLoan" v-if="scope.row.colOne == '是否商业贷款'" label="2">是</el-radio>
+  					  <el-radio v-model="isCapitalSupervision" v-if="scope.row.colOne == '是否资金监管'" label="1">否</el-radio>
+  					  <el-radio v-model="isCapitalSupervision" v-if="scope.row.colOne == '是否资金监管'" label="2">是</el-radio>
+			          <span v-if="scope.row.colOne == '成交金额'">元（&yen;）</span>
+					  <span v-else-if="scope.row.colOne == '是否佣金监管'">否</span>
+			          <span v-else-if="scope.row.colOne == '首付款'">元（&yen;）</span>
+			          <span v-else-if="scope.row.colOne == '卖方佣金金额'">元（&yen;）</span>
+			        </template>
+				  </el-table-column>
+				  <el-table-column
+				    prop="colThree"
+				    width="170">
+				  </el-table-column>
+				  <el-table-column
+				    prop="colFour"
+				    width="">
+				    <template slot-scope="scope">
+				      <el-select v-if="scope.row.colThree == '行政区'" v-model="regionValue" placeholder="请选择">
 					  	<el-option
 					      v-for="item in regionOptions"
 					      :key="item.regionValue"
@@ -282,89 +328,7 @@
 					      :value="item.regionValue">
 					    </el-option>
 					  </el-select>
-				    </template>
-			  	  </td>
-			  	</tr>
-			  	<tr>
-			  	  <td class="bgc">
-			  	  	<span>*</span>
-			  	  	成交金额
-			  	  </td>
-			  	  <td>
-			  	  	<input type="text">
-			  	  	元（&yen;）
-			  	  </td>
-			  	  <td colspan="2"></td>
-			  	</tr>
-			  	<tr>
-			  	  <td class="bgc">
-			  	  	<span>*</span>
-			  	  	首付款
-			  	  </td>
-			  	  <td>
-			  	  	<input type="text">
-			  	  	元（&yen;）
-			  	  </td>
-			  	  <td class="bgc">
-			  	  	<span>*</span>
-			  	  	定金
-			  	  </td>
-			  	  <td>
-			  	  	<input type="text">
-			  	  	元（&yen;）
-			  	  </td>
-			  	</tr>
-			  	<tr>
-			  	  <td class="bgc">是否公积金贷款</td>
-			  	  <td>
-			  	  	<input type="radio" checked="" name="reserveFund">否
-			  	  	<input type="radio" name="reserveFund">是
-			  	  </td>
-			  	  <td class="bgc">公积金贷款金额</td>
-			  	  <td>
-			  	  	<input type="text">
-			  	  	元（&yen;）
-			  	  </td>
-			  	</tr>
-			  	<tr>
-			  	  <td class="bgc">是否商业贷款</td>
-			  	  <td>
-			  	  	<input type="radio" checked="" name="businessLoan">否
-			  	  	<input type="radio" name="businessLoan">是
-			  	  </td>
-			  	  <td class="bgc">
-			  	  	商业贷款金额
-			  	  </td>
-			  	  <td>
-			  	  	<input type="text">
-			  	  	元（&yen;）
-			  	  </td>
-			  	</tr>
-			  	<tr>
-			  	  <td class="bgc">是否资金监管</td>
-			  	  <td>
-			  	  	<input type="radio" checked="" name="fundSupervision">否
-			  	  	<input type="radio" name="fundSupervision">是
-			  	  </td>
-			  	  <td class="bgc">争议解决方式</td>
-			  	  <td>
-			  	  	<template>
-				      <el-select v-model="disputeValue">
-					  	<el-option
-					      v-for="item in disputeOptions"
-					      :key="item.disputeValue"
-					      :label="item.label"
-					      :value="item.disputeValue">
-					    </el-option>
-					  </el-select>
-				    </template>
-			  	  </td>
-			  	</tr>
-			  	<tr>
-			  	  <td class="bgc">税费承担方式</td>
-			  	  <td>
-			  	  	<template>
-				      <el-select v-model="taxesValue">
+					  <el-select v-else-if="scope.row.colThree == '税费承担方式'" v-model="taxesValue">
 					  	<el-option
 					      v-for="item in taxesOptions"
 					      :key="item.taxesValue"
@@ -372,34 +336,30 @@
 					      :value="item.taxesValue">
 					    </el-option>
 					  </el-select>
-				    </template>
-			  	  </td>
-			  	  <td class="bgc"></td>
-			  	  <td></td>
-			  	</tr>
-			  	<tr>
-			  	  <td class="bgc">其他约定</td>
-			  	  <td colspan="3">
-			  	  	<textarea rows="6"></textarea>
-			  	  </td>
-			  	</tr>
-			  	<tr>
-			  	  <td class="bgc">是否佣金监管</td>
-			  	  <td colspan="3">否</td>
-			  	</tr>
-			  	<tr>
-			  	  <td class="bgc">卖方佣金金额</td>
-			  	  <td>
-			  	  	<input type="text">
-			  	  	元（&yen;）
-			  	  </td>
-			  	  <td class="bgc">买方佣金金额</td>
-			  	  <td>
-			  	  	<input type="text">
-			  	  	元（&yen;）
-			  	  </td>
-			  	</tr>
-			  </table>
+					  <el-select v-else-if="scope.row.colThree == '争议解决方式'" v-model="disputeValue">
+					  	<el-option
+					      v-for="item in disputeOptions"
+					      :key="item.disputeValue"
+					      :label="item.label"
+					      :value="item.disputeValue">
+					    </el-option>
+					  </el-select>
+					  <el-input v-model="earnestAmount" v-if="scope.row.colThree == '定金'">
+			          </el-input>
+			          <el-input v-model="providentFundAmount" v-else-if="scope.row.colThree == '公积金贷款金额'">
+			          </el-input>
+			          <el-input v-model="busLoanAmount" v-else-if="scope.row.colThree == '商业贷款金额'">
+			          </el-input>
+			          <el-input v-model="buyerCommAmount" v-else-if="scope.row.colThree == '买方佣金金额'">
+			          </el-input>
+				      <span v-if="scope.row.colThree == '定金'">元（&yen;）</span>
+				      <span v-else-if="scope.row.colThree == '公积金贷款金额'">元（&yen;）</span>
+				      <span v-else-if="scope.row.colThree == '商业贷款金额'">元（&yen;）</span>
+				      <span v-else-if="scope.row.colThree == '买方佣金金额'">元（&yen;）</span>
+			        </template>
+				  </el-table-column>
+				</el-table>
+			  </template>
 			</el-collapse-item>
 		  </el-collapse>
 		  <div class="sellerMsgContain" :style="{display: sellerMsgContainTable}">
@@ -407,11 +367,11 @@
 		  	  <i class="el-icon-s-platform"></i>
 		  	  新增卖方
 		  	</p>
-		  	<table border="1px" cellspacing="0px" class="sellerMsgTable">
+		  	<table cellspacing="0px" class="sellerMsgTable">
 			  <tr>
 			    <td class="bgc">卖方类型</td>
 			    <td>
-			      <el-select v-model="newSellerPersonTypeValue" placeholder="请选择">
+			      <el-select style="width: 100%;" v-model="newSellerPersonTypeValue" placeholder="请选择">
 				    <el-option
 				      v-for="item in newSellerPersonTypeOptions"
 				      :key="item.newSellerPersonTypeValue"
@@ -421,16 +381,16 @@
 				  </el-select>
 			    </td>
 			    <td class="bgc">
-			  	  
+			  	  联系电话
 			    </td>
 			    <td>
-			      
+			      <el-input v-model="phoneSeller"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td class="bgc">姓名</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="nameSeller"></el-input>
 			    </td>
 			    <td class="bgc">相关人类型</td>
 			    <td>出卖人</td>
@@ -438,17 +398,17 @@
 			  <tr>
 			    <td class="bgc">户籍所在地(住所)</td>
 			    <td>
-			      <input type="text">
+			      <el-input v-model="placeSeller"></el-input>
 			    </td>
-			    <td class="bgc">联系电话</td>
+			    <td class="bgc">通讯地址</td>
 			    <td>
-			      <input type="text">
+			      <el-input v-model="addressSeller"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td class="bgc">证件类型</td>
 			    <td>
-			      <el-select v-model="newSellerIdTypeValue" placeholder="请选择">
+			      <el-select style="width: 100%;" v-model="newSellerIdTypeValue" placeholder="请选择">
 				    <el-option
 				      v-for="item in newSellerIdTypeOptions"
 				      :key="item.newSellerIdTypeValue"
@@ -459,53 +419,43 @@
 			    </td>
 			    <td class="bgc">证件号码</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="certCodeSeller"></el-input>
 			    </td>
 		      </tr>
 			  <tr>
 			    <td class="bgc">邮政编码</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="postalcodeSeller"></el-input>
 			    </td>
-			    <td class="bgc">通讯地址</td>
-			    <td>
-			  	  <input type="text">
-			    </td>
-			  </tr>
-			  <tr>
 			    <td class="bgc">电子邮箱</td>
 			    <td>
-			  	  
-			    </td>
-			    <td class="bgc"></td>
-			    <td>
-			  	  
+			  	  <el-input v-model="emailSeller"></el-input>
 			    </td>
 			  </tr>
 		    </table>
-		    <el-button type="info" icon="el-icon-refresh-left" circle @click="getBackSeller">返回</el-button>
-		    <el-button type="primary" icon="el-icon-finished" circle>保存</el-button>
+		    <el-button type="success" icon="el-icon-refresh-left" @click="getBackSeller">返回</el-button>
+		    <el-button type="primary" icon="el-icon-finished">保存</el-button>
 		  </div>
 		  <div class="sellerNewMsgContain" :style="{display: sellerNewMsgContainTable}">
 		  	<p>
 		  	  <i class="el-icon-s-platform"></i>
 		  	  新增卖方代理人
 		  	</p>
-		  	<table border="1px" cellspacing="0px" class="sellerNewMsgTable">
+		  	<table cellspacing="0px" class="sellerNewMsgTable">
 			  <tr>
 			    <td class="bgc">
 			      <span>*</span>
 			      姓名
 			    </td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="nameSellerNew"></el-input>
 			    </td>
 			    <td class="bgc">
 			      <span>*</span>
 			      相关人类型
 			    </td>
 			    <td>
-				  <el-select v-model="newSellerNewPersonTypeValue">
+				  <el-select style="width: 100%;" v-model="newSellerNewPersonTypeValue">
 				    <el-option
 				      v-for="item in newSellerNewPersonTypeOptions"
 				      :key="item.newSellerNewPersonTypeValue"
@@ -521,14 +471,14 @@
 			      户籍所在地(住所)
 			    </td>
 			    <td>
-			      <input type="text">
+			      <el-input v-model="placeSellerNew"></el-input>
 			    </td>
 			    <td class="bgc">
 			      <span>*</span>
 			      联系电话
 			    </td>
 			    <td>
-			      <input type="text">
+			      <el-input v-model="phoneSellerNew"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
@@ -537,7 +487,7 @@
 			      证件类型
 			    </td>
 			    <td>
-			      <el-select v-model="newSellerNewIdTypeValue">
+			      <el-select style="width: 100%;" v-model="newSellerNewIdTypeValue">
 				    <el-option
 				      v-for="item in newSellerNewIdTypeOptions"
 				      :key="item.newSellerNewIdTypeValue"
@@ -551,23 +501,23 @@
 			      证件号码
 			    </td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="certCodeSellerNew"></el-input>
 			    </td>
 		      </tr>
 			  <tr>
 			    <td class="bgc">通讯地址</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="addressSellerNew"></el-input>
 			    </td>
 			    <td class="bgc">邮政编码</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="postalcodeSellerNew"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td class="bgc">电子邮箱</td>
 			    <td>
-			  	  
+			  	  <el-input v-model="emailSellerNew"></el-input>
 			    </td>
 			    <td class="bgc"></td>
 			    <td>
@@ -575,19 +525,19 @@
 			    </td>
 			  </tr>
 		    </table>
-		    <el-button type="info" icon="el-icon-refresh-left" circle @click="getBackNewSeller">返回</el-button>
-		    <el-button type="primary" icon="el-icon-finished" circle>保存</el-button>
+		    <el-button type="success" icon="el-icon-refresh-left" @click="getBackNewSeller">返回</el-button>
+		    <el-button type="primary" icon="el-icon-finished">保存</el-button>
 		  </div>
 		  <div class="buyerMsgContain" :style="{display: buyerMsgContainTable}">
 		  	<p>
 		  	  <i class="el-icon-s-platform"></i>
 		  	  新增买方
 		  	</p>
-		  	<table border="1px" cellspacing="0px" class="buyerMsgTable">
+		  	<table cellspacing="0px" class="buyerMsgTable">
 			  <tr>
 			    <td class="bgc">买方类型</td>
 			    <td>
-			      <el-select v-model="newBuyerPersonTypeValue" placeholder="请选择">
+			      <el-select style="width: 100%;" v-model="newBuyerPersonTypeValue" placeholder="请选择">
 				    <el-option
 				      v-for="item in newBuyerPersonTypeOptions"
 				      :key="item.newBuyerPersonTypeValue"
@@ -606,7 +556,7 @@
 			  <tr>
 			    <td class="bgc">姓名</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="nameBuyer"></el-input>
 			    </td>
 			    <td class="bgc">相关人类型</td>
 			    <td>
@@ -616,17 +566,17 @@
 			  <tr>
 			    <td class="bgc">户籍所在地(住所)</td>
 			    <td>
-			      <input type="text">
+			      <el-input v-model="placeBuyer"></el-input>
 			    </td>
 			    <td class="bgc">联系电话</td>
 			    <td>
-			      <input type="text">
+			      <el-input v-model="phoneBuyer"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td class="bgc">证件类型</td>
 			    <td>
-			      <el-select v-model="newBuyerIdTypeValue" placeholder="请选择">
+			      <el-select style="width: 100%;" v-model="newBuyerIdTypeValue" placeholder="请选择">
 				    <el-option
 				      v-for="item in newBuyerIdTypeOptions"
 				      :key="item.newBuyerIdTypeValue"
@@ -637,32 +587,32 @@
 			    </td>
 			    <td class="bgc">证件号码</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="certCodeBuyer"></el-input>
 			    </td>
 		      </tr>
 			  <tr>
 			    <td class="bgc">邮政编码</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="postalcodeBuyer"></el-input>
 			    </td>
 			    <td class="bgc">通讯地址</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="addressBuyer"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td class="bgc">电子邮箱</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="emailBuyer"></el-input>
 			    </td>
 			    <td class="bgc">共有比例</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="rightsShare"></el-input>
 			    </td>
 			  </tr>
 		    </table>
-		    <el-button type="info" icon="el-icon-refresh-left" circle @click="getBackBuyer">返回</el-button>
-		    <el-button type="primary" icon="el-icon-finished" circle>保存</el-button>
+		    <el-button type="success" icon="el-icon-refresh-left" @click="getBackBuyer">返回</el-button>
+		    <el-button type="primary" icon="el-icon-finished">保存</el-button>
 		  </div>
 		  <div class="selectBuyerMsgContain" :style="{display: selectBuyerMsgContainTable}">
 		  	<p>
@@ -679,7 +629,8 @@
 					:value="item.selectBuyerTypeValue">
 				  </el-option>
 				</el-select>
-			    <input type="text" v-model="selectIdValue">
+			    <!-- <input type="text" v-model="selectIdValue"> -->
+			    <el-input v-model="selectIdValue"></el-input>
 			    <el-button @click="searchSeller" type="primary">查询<i class="el-icon-search el-icon--right"></i></el-button>
 		  	  </div>
 			  <el-table
@@ -722,7 +673,7 @@
 			    </el-table-column>
 			 </el-table>
 			</template>
-		    <el-button type="info" icon="el-icon-refresh-left" circle @click="getBackselectBuyer">返回</el-button>
+		    <el-button type="success" icon="el-icon-refresh-left" @click="getBackselectBuyer">返回</el-button>
 		  </div>
 		  <div class="houseMsgContain" :style="{display: houseMsgContainTable}">
 		  	<p>
@@ -731,7 +682,7 @@
 		  	  <span :style="{display: amendHousePage}">
 		  	  <i class="el-icon-s-platform"></i>修改房屋信息</span>
 		  	</p>
-		  	<table border="1px" cellspacing="0px" class="houseMsgTable">
+		  	<table cellspacing="0px" class="houseMsgTable">
 			  <tr>
 			    <td class="bgc">
 			      图号
@@ -783,7 +734,7 @@
 			  	  滨州市黄河六路566号
 			    </td>
 			    <td colspan="3" :style="{display: amendHousePage}">
-			      <input type="text" value="滨州市黄河六路566号">
+			      <el-input style="width: 63%;" value="滨州市黄河六路566号"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
@@ -795,7 +746,7 @@
 			      100.000
 			    </td>
 			    <td :style="{display: amendHousePage}">
-			      <input type="text" value="100.000">
+			      <el-input value="100.000"></el-input>
 			    </td>
 			    <td class="bgc"></td>
 			    <td>
@@ -851,7 +802,7 @@
 			      住宅
 			    </td>
 			    <td :style="{display: amendHousePage}">
-			      <el-select v-model="housePurposeValue">
+			      <el-select style="width: 100%;" v-model="housePurposeValue">
 				    <el-option
 				      v-for="item in housePurposeOptions"
 				      :key="item.housePurposeValue"
@@ -868,7 +819,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendHousePage}">
-			  	  <el-select v-model="houseTypeValue">
+			  	  <el-select style="width: 100%;" v-model="houseTypeValue">
 				    <el-option
 				      v-for="item in houseTypeOptions"
 				      :key="item.houseTypeValue"
@@ -879,8 +830,8 @@
 			    </td>
 			  </tr>
 		    </table>
-		    <el-button type="info" icon="el-icon-refresh-left" circle @click="getBackHouse">返回</el-button>
-		    <el-button type="primary" :style="{display: amendHousePage}" icon="el-icon-finished" circle>保存</el-button>
+		    <el-button type="success" icon="el-icon-refresh-left" @click="getBackHouse">返回</el-button>
+		    <el-button type="primary" :style="{display: amendHousePage}" icon="el-icon-finished">保存</el-button>
 		  </div>
 		  <div class="sellerCheckMsgContain" :style="{display: sellerCheckMsgContainTable}">
 		  	<p>
@@ -889,7 +840,7 @@
 		  	  <span :style="{display: amendSellerPage}">
 		  	  <i class="el-icon-s-platform"></i>修改卖方</span>
 		  	</p>
-		  	<table border="1px" cellspacing="0px" class="sellerCheckMsgTable">
+		  	<table cellspacing="0px" class="sellerCheckMsgTable">
 			  <tr>
 			    <td class="bgc">
 			      卖方类型
@@ -898,7 +849,7 @@
 			    	
 			    </td>
 			    <td :style="{display: amendSellerPage}">
-			      <el-select v-model="sellerTypeValue">
+			      <el-select style="width: 100%;" v-model="sellerTypeValue">
 				    <el-option
 				      v-for="item in sellerTypeOptions"
 				      :key="item.sellerTypeValue"
@@ -922,7 +873,7 @@
 			  	  孙建波
 			    </td>
 			    <td :style="{display: amendSellerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="nameAmendSeller"></el-input>
 			    </td>
 			    <td class="bgc">
 			      相关人类型
@@ -939,7 +890,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendSellerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="placeAmendSeller"></el-input>
 			    </td>
 			    <td class="bgc">
 			      联系电话
@@ -948,7 +899,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendSellerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="phoneAmendSeller"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
@@ -957,7 +908,7 @@
 			    	
 			    </td>
 			    <td :style="{display: amendSellerPage}">
-			      <el-select v-model="sellerIdTypeValue">
+			      <el-select style="width: 100%;" v-model="sellerIdTypeValue">
 				    <el-option
 				      v-for="item in sellerIdTypeOptions"
 				      :key="item.sellerIdTypeValue"
@@ -971,7 +922,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendSellerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="certCodeAmendSeller"></el-input>
 			    </td>
 		      </tr>
 			  <tr>
@@ -980,7 +931,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendSellerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="addressAmendSeller"></el-input>
 			    </td>
 			    <td class="bgc">
 			  	  邮政编码
@@ -989,7 +940,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendSellerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="postalcodeAmendSeller"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
@@ -998,7 +949,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendSellerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="emailAmendSeller"></el-input>
 			    </td>
 			    <td class="bgc"></td>
 			    <td>
@@ -1006,29 +957,29 @@
 			    </td>
 			  </tr>
 		    </table>
-		    <el-button type="info" icon="el-icon-refresh-left" circle @click="getBackSellerAmend">返回</el-button>
-		    <el-button type="primary" :style="{display: amendSellerPage}" icon="el-icon-finished" circle>保存</el-button>
+		    <el-button type="success" icon="el-icon-refresh-left" @click="getBackSellerAmend">返回</el-button>
+		    <el-button type="primary" :style="{display: amendSellerPage}" icon="el-icon-finished">保存</el-button>
 		  </div>
 		  <div class="buyerNewMsgContain" :style="{display: buyerNewMsgContainTable}">
 		  	<p>
 		  	  <i class="el-icon-s-platform"></i>
 		  	  新增买方代理人
 		  	</p>
-		  	<table border="1px" cellspacing="0px" class="buyerNewMsgTable">
+		  	<table cellspacing="0px" class="buyerNewMsgTable">
 			  <tr>
 			    <td class="bgc">
 			      <span>*</span>
 			      姓名
 			    </td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="nameBuyerNew"></el-input>
 			    </td>
 			    <td class="bgc">
 			      <span>*</span>
 			      相关人类型
 			    </td>
 			    <td>
-				  <el-select v-model="newBuyerNewPersonTypeValue">
+				  <el-select style="width: 100%;" v-model="newBuyerNewPersonTypeValue">
 				    <el-option
 				      v-for="item in newBuyerNewPersonTypeOptions"
 				      :key="item.newBuyerNewPersonTypeValue"
@@ -1044,14 +995,14 @@
 			      户籍所在地(住所)
 			    </td>
 			    <td>
-			      <input type="text">
+			      <el-input v-model="placeBuyerNew"></el-input>
 			    </td>
 			    <td class="bgc">
 			      <span>*</span>
 			      联系电话
 			    </td>
 			    <td>
-			      <input type="text">
+			      <el-input v-model="phoneBuyerNew"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
@@ -1060,7 +1011,7 @@
 			      证件类型
 			    </td>
 			    <td>
-			      <el-select v-model="newBuyerNewIdTypeValue">
+			      <el-select style="width: 100%;" v-model="newBuyerNewIdTypeValue">
 				    <el-option
 				      v-for="item in newBuyerNewIdTypeOptions"
 				      :key="item.newBuyerNewIdTypeValue"
@@ -1074,32 +1025,31 @@
 			      证件号码
 			    </td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="certCodeBuyerNew"></el-input>
 			    </td>
 		      </tr>
 			  <tr>
 			    <td class="bgc">通讯地址</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="addressBuyerNew"></el-input>
 			    </td>
 			    <td class="bgc">邮政编码</td>
 			    <td>
-			  	  <input type="text">
+			  	  <el-input v-model="postalcodeBuyerNew"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td class="bgc">电子邮箱</td>
 			    <td>
-			  	  
+			  	  <el-input v-model="emailBuyerNew"></el-input>
 			    </td>
 			    <td class="bgc"></td>
 			    <td>
-			  	  
 			    </td>
 			  </tr>
 		    </table>
-		    <el-button type="info" icon="el-icon-refresh-left" circle @click="getBackNewBuyer">返回</el-button>
-		    <el-button type="primary" icon="el-icon-finished" circle>保存</el-button>
+		    <el-button type="success" icon="el-icon-refresh-left" @click="getBackNewBuyer">返回</el-button>
+		    <el-button type="primary" icon="el-icon-finished">保存</el-button>
 		  </div>
 		  <div class="buyerCheckMsgContain" :style="{display: buyerCheckMsgContainTable}">
 		  	<p>
@@ -1108,7 +1058,7 @@
 		  	  <span :style="{display: amendBuyerPage}">
 		  	  <i class="el-icon-s-platform"></i>修改买方</span>
 		  	</p>
-		  	<table border="1px" cellspacing="0px" class="buyerCheckMsgTable">
+		  	<table cellspacing="0px" class="buyerCheckMsgTable">
 			  <tr>
 			    <td class="bgc">
 			      买方类型
@@ -1117,7 +1067,7 @@
 			    	
 			    </td>
 			    <td :style="{display: amendBuyerPage}">
-			      <el-select v-model="buyerTypeValue">
+			      <el-select style="width: 100%;" v-model="buyerTypeValue">
 				    <el-option
 				      v-for="item in buyerTypeOptions"
 				      :key="item.buyerTypeValue"
@@ -1141,7 +1091,7 @@
 			  	  孙建波
 			    </td>
 			    <td :style="{display: amendBuyerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="nameAmendBuyer"></el-input>
 			    </td>
 			    <td class="bgc">
 			      相关人类型
@@ -1158,7 +1108,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendBuyerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="placeAmendBuyer"></el-input>
 			    </td>
 			    <td class="bgc">
 			      联系电话
@@ -1167,7 +1117,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendBuyerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="phoneAmendBuyer"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
@@ -1176,7 +1126,7 @@
 			    	
 			    </td>
 			    <td :style="{display: amendBuyerPage}">
-			      <el-select v-model="buyerIdTypeValue">
+			      <el-select style="width: 100%;" v-model="buyerIdTypeValue">
 				    <el-option
 				      v-for="item in buyerIdTypeOptions"
 				      :key="item.buyerIdTypeValue"
@@ -1190,7 +1140,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendBuyerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="certCodeAmendBuyer"></el-input>
 			    </td>
 		      </tr>
 			  <tr>
@@ -1199,7 +1149,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendBuyerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="addressAmendBuyer"></el-input>
 			    </td>
 			    <td class="bgc">
 			  	  邮政编码
@@ -1208,7 +1158,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendBuyerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="postalcodeAmendBuyer"></el-input>
 			    </td>
 			  </tr>
 			  <tr>
@@ -1217,7 +1167,7 @@
 			  	  
 			    </td>
 			    <td :style="{display: amendBuyerPage}">
-			  	  <input type="text">
+			  	  <el-input v-model="emailAmendBuyer"></el-input>
 			    </td>
 			    <td class="bgc"></td>
 			    <td>
@@ -1225,8 +1175,8 @@
 			    </td>
 			  </tr>
 		    </table>
-		    <el-button type="info" icon="el-icon-refresh-left" circle @click="getBackBuyerAmend">返回</el-button>
-		    <el-button type="primary" :style="{display: amendBuyerPage}" icon="el-icon-finished" circle>保存</el-button>
+		    <el-button type="success" icon="el-icon-refresh-left" @click="getBackBuyerAmend">返回</el-button>
+		    <el-button type="primary" :style="{display: amendBuyerPage}" icon="el-icon-finished">保存</el-button>
 		  </div>
 		  <div class="shade" :style="{display: shadeContain}">
 		  	
@@ -1248,10 +1198,9 @@
 	</div>
 	<div class="footer">
 	  <router-link to="/contractList">
-	    <el-button type="info" icon="el-icon-refresh-left" circle>返回</el-button>
+	    <el-button type="success" icon="el-icon-refresh-left">返回</el-button>
 	  </router-link>
-	  <el-button type="primary" @click="saveContract" icon="el-icon-finished" circle>保存</el-button>
-	  
+	  <el-button type="primary" @click="saveContract" icon="el-icon-finished" >保存</el-button>
 	</div>
   </div>
 </template>
@@ -1261,6 +1210,166 @@ export default {
   name: 'newIncreased',
   data() {
   	return {
+  		propRegCode: '',    //产权证号
+  		totalAmount: '',    //签约金额
+  		earnestAmount: '',    //定金
+  		downPaymentAmount: '',    //首付款
+  		isProvidentFund: '1',    //是否公积金贷款
+  		providentFundAmount: '',    //公积金贷款金额
+  		isBusLoan: '1',    //是否商业贷款
+  		busLoanAmount: '',    //商业贷款金额
+  		sellerCommAmount: '',    //卖方佣金金额
+  		buyerCommAmount: '',    //买方佣金金额
+  		isCapitalSupervision: '1',    //是否资金监管
+  		isCommSupervision: '',    //是否佣金监管
+  		otherStipulation: '',    //其他约定
+  		nameSeller: '',    //新增卖方姓名
+  		certCodeSeller: '',    //新增卖方证件号码
+  		placeSeller: '',    //新增卖方户籍所在地
+  		phoneSeller: '',    //新增卖方联系电话
+  		addressSeller: '',    //新增卖方通讯地址
+  		postalcodeSeller: '',    //新增卖方邮政编码
+  		emailSeller: '',    //新增卖方电子邮箱
+  		nameSellerNew: '',    //新增卖方代理人姓名
+  		certCodeSellerNew: '',    //新增卖方代理人证件号码
+  		placeSellerNew: '',    //新增卖方代理人户籍所在地
+  		phoneSellerNew: '',    //新增卖方代理人联系电话
+  		addressSellerNew: '',    //新增卖方代理人通讯地址
+  		postalcodeSellerNew: '',    //新增卖方代理人邮政编码
+  		emailSellerNew: '',    //新增卖方代理人电子邮箱
+  		nameBuyer: '',    //新增买方姓名
+  		certCodeBuyer: '',    //新增买方证件号码
+  		placeBuyer: '',    //新增买方户籍所在地
+  		phoneBuyer: '',    //新增买方联系电话
+  		addressBuyer: '',    //新增买方通讯地址
+  		postalcodeBuyer: '',    //新增买方邮政编码
+  		emailBuyer: '',    //新增买方电子邮箱
+  		rightsShare: '',    //买方共有比例
+  		nameAmendSeller: '',    //修改卖方姓名
+  		certCodeAmendSeller: '',    //修改卖方证件号码
+  		placeAmendSeller: '',    //修改卖方户籍所在地
+  		phoneAmendSeller: '',    //修改卖方联系电话
+  		addressAmendSeller: '',    //修改卖方通讯地址
+  		postalcodeAmendSeller: '',    //修改卖方邮政编码
+  		emailAmendSeller: '',    //修改卖方电子邮箱
+  		nameBuyerNew: '',    //新增买方代理人姓名
+  		certCodeBuyerNew: '',    //新增买方代理人证件号码
+  		placeBuyerNew: '',    //新增买方代理人户籍所在地
+  		phoneBuyerNew: '',    //新增买方代理人联系电话
+  		addressBuyerNew: '',    //新增买方代理人通讯地址
+  		postalcodeBuyerNew: '',    //新增买方代理人邮政编码
+  		emailBuyerNew: '',    //新增买方代理人电子邮箱
+  		nameAmendBuyer: '',    //修改买方姓名
+  		certCodeAmendBuyer: '',    //修改买方证件号码
+  		placeAmendBuyer: '',    //修改买方户籍所在地
+  		phoneAmendBuyer: '',    //修改买方联系电话
+  		addressAmendBuyer: '',    //修改买方通讯地址
+  		postalcodeAmendBuyer: '',    //修改买方邮政编码
+  		emailAmendBuyer: '',    //修改买方电子邮箱
+  		taxesValue: '1',    //提取按钮模拟输入产权证号
+        sellerMsgContainTable: 'none',    //点击卖方新增
+        sellerNewMsgContainTable: 'none',    //房源提取后点击新增卖方代理人
+        buyerNewMsgContainTable: 'none',    //点击买方新增
+        buyerMsgContainTable: 'none',    //选择买方后点击新增买方代理人
+        selectBuyerMsgContainTable: 'none',    //点击买方选择按钮
+        houseMsgContainTable: 'none',    //房源提取后点击房屋信息查看或者修改
+        amendHousePage: '',    //房源提取后点击修改房屋信息出现的样式
+        checkHousePage: '',    //房源提取后点击查看房屋信息出现的样式
+        amendSellerPage: '',    //房源提取后点击修改卖方出现的样式
+        amendBuyerPage: '',    //选择买方后点击修改卖方出现的样式
+        checkSellerPage: '',    //房源提取后点击查看卖方出现的样式
+        checkBuyerPage: '',    //选择买方后点击查看卖方出现的样式
+        sellerCheckMsgContainTable: 'none',    //房源提取后点击修改或查看卖方出现的信息
+        buyerCheckMsgContainTable: 'none',    //选择买方后点击修改或查看按钮出现的信息
+        shadeContain: 'none',    //遮罩
+        selectIdValue: '',   //点击买方选择按钮模拟查询证件号的值
+        inputOne: '',    //头部的房源查询编号
+        // inputTwo: '',    
+        // inputThree: '',
+        // inputFour: '',
+        inputFive: '',    //头部的验证码
+        houseMsg: ['1'],    //房屋信息默认展开
+        sellerMsg: ['1'],    //卖方信息默认展开
+        buyerMsg: ['1'],    //买方信息默认展开
+        brokerageMsg: ['1'],    //经纪机构信息默认展开
+        makeBargainMsg: ['1'],    //经纪机构上方信息默认展开
+        contractMsg: ['1'],    //合同信息默认展开
+        tableData: [],    //房源提取后房屋信息和卖方的信息
+        selectBuyerTableData: [],    //买方选择中点击搜索按钮出现的信息
+        buyerTableData: [],    //买方选择后的买方信息
+  		makeBargain: [{    //经纪机构信息上面一个小表格
+  		  colOne: '成交类型',
+          colTwo: '',
+          colThree: '是否经纪机构受理',
+          colFour: '是'
+  		}],
+  		tableBrokerage: [{    //经纪机构信息表格
+          colOne: '机构名称',
+          colTwo: '滨州市鸿卓经纪有限公司',
+          colThree: '统一社会信用代码',
+          colFour: '91371600MA3DK3CB88'
+        }, {
+          colOne: '法定代表人',
+          colTwo: '路红红',
+          colThree: '身份证号',
+          colFour: '372323198612070329'
+        }, {
+          colOne: '通讯地址',
+          colTwo: '杜店街道办事处南街商住楼B座西24号',
+          colThree: '邮政编码',
+          colFour: '111'
+        }, {
+          colOne: '电子邮箱',
+          colTwo: '654641651',
+          colThree: '联系电话',
+          colFour: '4684651654'
+        }],
+        tableContract: [{    //合同信息表格
+          colOne: '产权证号',
+          colTwo: '',
+          colThree: '行政区',
+          colFour: ''
+        }, {
+          colOne: '成交金额',
+          colTwo: '',
+          colThree: '税费承担方式',
+          colFour: ''
+        }, {
+          colOne: '首付款',
+          colTwo: '',
+          colThree: '定金',
+          colFour: ''
+        }, {
+          colOne: '是否公积金贷款',
+          colTwo: '',
+          colThree: '公积金贷款金额',
+          colFour: ''
+        }, {
+          colOne: '是否商业贷款',
+          colTwo: '',
+          colThree: '商业贷款金额',
+          colFour: ''
+        }, {
+          colOne: '是否资金监管',
+          colTwo: '',
+          colThree: '争议解决方式',
+          colFour: ''
+        }, {
+          colOne: '其他约定',
+          colTwo: '',
+          colThree: '',
+          colFour: ''
+        }, {
+          colOne: '是否佣金监管',
+          colTwo: '否',
+          colThree: '',
+          colFour: ''
+        }, {
+          colOne: '卖方佣金金额',
+          colTwo: '',
+          colThree: '买方佣金金额',
+          colFour: ''
+        }],
   	  // idTypeOptions: [{
      //      idTypeValue: '1',
      //      label: '请选择'
@@ -1503,19 +1612,6 @@ export default {
           label: '其他'
         }],
         buyerIdTypeValue: '1',
-        inputOne: '',    //头部的房源查询编号
-        // inputTwo: '',    
-        // inputThree: '',
-        // inputFour: '',
-        inputFive: '',    //头部的验证码
-        houseMsg: ['1'],    //房屋信息默认展开
-        sellerMsg: ['1'],    //卖方信息默认展开
-        buyerMsg: ['1'],    //买方信息默认展开
-        brokerageMsg: ['1'],    //经纪机构信息默认展开
-        contractMsg: ['1'],    //合同信息默认展开
-        tableData: [],    //房源提取后房屋信息和卖方的信息
-        selectBuyerTableData: [],    //买方选择中点击搜索按钮出现的信息
-        buyerTableData: [],    //买方选择后的买方信息
         buyerMsgOptions: [{    //买方信息的共有类型
           buyerMsgValue: '1',
           label: '单独所有'
@@ -1623,24 +1719,8 @@ export default {
         }, {
           taxesValue: '3',
           label: '其他约定'
-        }],
-        taxesValue: '1',    //提取按钮模拟输入产权证号
-        sellerMsgContainTable: 'none',    //点击卖方新增
-        sellerNewMsgContainTable: 'none',    //房源提取后点击新增卖方代理人
-        buyerNewMsgContainTable: 'none',    //点击买方新增
-        buyerMsgContainTable: 'none',    //选择买方后点击新增买方代理人
-        selectBuyerMsgContainTable: 'none',    //点击买方选择按钮
-        houseMsgContainTable: 'none',    //房源提取后点击房屋信息查看或者修改
-        amendHousePage: '',    //房源提取后点击修改房屋信息出现的样式
-        checkHousePage: '',    //房源提取后点击查看房屋信息出现的样式
-        amendSellerPage: '',    //房源提取后点击修改卖方出现的样式
-        amendBuyerPage: '',    //选择买方后点击修改卖方出现的样式
-        checkSellerPage: '',    //房源提取后点击查看卖方出现的样式
-        checkBuyerPage: '',    //选择买方后点击查看卖方出现的样式
-        sellerCheckMsgContainTable: 'none',    //房源提取后点击修改或查看卖方出现的信息
-        buyerCheckMsgContainTable: 'none',    //选择买方后点击修改或查看按钮出现的信息
-        shadeContain: 'none',    //遮罩
-        selectIdValue: ''    //点击买方选择按钮模拟查询证件号的值
+        }]
+        
   	}
   },
   methods: {
@@ -1669,7 +1749,7 @@ export default {
           mainHouseAreaHouse: '1',
           operateHouse: '',
           serialNumSeller: '',
-          nameSeller: '',
+          nameSellerShow: '',
           relPersonTypeSeller: '',
           idTypeSeller: '1',
           idNumberSeller: '',
@@ -1771,7 +1851,7 @@ export default {
   	  this.shadeContain = 'none';
   	  this.buyerTableData = [{
   	  	serialNumBuyer: '',
-        nameBuyer: '',
+        nameBuyerShow: '',
         relPersonTypeBuyer: '',
         idTypeBuyer: '1',
         idNumberBuyer: '',
@@ -1807,6 +1887,43 @@ export default {
   	  this.buyerNewMsgContainTable = 'none';
   	  this.shadeContain = 'none';
   	},
+  	arraySpanMethod({ row, column, rowIndex, columnIndex }) {    //合同信息合并列
+      if(rowIndex === 6 || rowIndex === 7){
+	    if(columnIndex === 1){
+	      return [1, 3];
+	    }
+	  }
+	},
+    addContractCellStyle({ row, column, rowIndex, columnIndex }){    //添加合同信息单元格样式
+      if(columnIndex === 0 || columnIndex === 2){
+        return 'background-color: #f5f7fa;text-align: right;padding-right: 10px;'
+      } 
+    },
+    addContractRowStyle({ row, column, rowIndex, columnIndex }){    //添加合同信息表头样式
+      if(rowIndex === 0){
+      	return 'display: none;'
+      }
+    },
+    addBrokerageCellStyle({ row, column, rowIndex, columnIndex }){    //添加经纪机构信息单元格样式
+      if(columnIndex === 0 || columnIndex === 2){
+        return 'background-color: #f5f7fa;text-align: right;padding-right: 10px;'
+      }
+    },
+    addMakeBrokerageCellStyle({ row, column, rowIndex, columnIndex }){    //添加经纪机构信息上方单元格样式
+      if(columnIndex === 0 || columnIndex === 2){
+        return 'background-color: #f5f7fa;text-align: right;padding-right: 10px;'
+      }
+    },
+    addBrokerageRowStyle({ row, column, rowIndex, columnIndex }){    //添加经纪机构信息表头样式
+      if(rowIndex === 0){
+      	return 'display: none;'
+      }
+    },
+    addMakeBrokerageRowStyle({ row, column, rowIndex, columnIndex }){    //添加经纪机构信息上方表头样式
+      if(rowIndex === 0){
+      	return 'display: none;'
+      }
+    },
   }
 }
 </script>
@@ -1816,7 +1933,13 @@ export default {
   .el-icon-s-platform{
 	font-size: 20px;
 	margin-bottom: 10px;
+	margin-left: 10%;
   }
+}
+.navBar{
+  // border: 1px solid red;
+  width: 80%;
+  margin: auto;
 }
 .header{
   margin-bottom: 5px;
@@ -1830,7 +1953,7 @@ export default {
   .proposer{
 	width: 6%;
   }
-  .propRegCode{
+  .propRegCodeClass{
 	width: 20%;
   }
   .el-button{
@@ -1842,12 +1965,15 @@ export default {
 /deep/ .el-tabs__item{
   font-weight: bold;
 }
-/deep/ .el-tabs__nav-scroll{
-  background-color: #22678d;
+// /deep/ .el-table thead{
+//   display: none;
+// }
+
+/deep/ tbody .el-input{
+  width: 70%;
 }
-/deep/ .el-collapse-item__header{
-  background-color: #b3d9d9;
-  padding-left: 10px;
+/deep/ .el-tabs__nav-scroll{
+  background-color: #408be7;
 }
 /deep/ .operate{
   padding: 5px 5px;
@@ -1861,6 +1987,25 @@ export default {
 }
 /deep/ .sellIncrease{
   float: right;
+}
+/deep/ .el-table th.gutter{
+  display: table-cell!important;
+}
+/deep/ .el-collapse-item__header{
+  background-color: #f5f7fa;
+  padding-left: 10px;
+}
+/deep/ .el-table::before,/deep/ .el-table--border::after{
+  background-color: #f5f7fa;
+}
+/deep/ .el-tabs--border-card>.el-tabs__header .el-tabs__item{
+  color: #fff;
+}
+/deep/ .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active{
+  color: #408be7;
+}
+/deep/ .el-table--border{
+  border-color: #f5f7fa;
 }
 .buyer{
   /deep/ .el-select{
@@ -1880,67 +2025,31 @@ export default {
   	margin-right: 5px; 
   }
 }
-//选择买方操作框按钮
-.selectBuyerOperate{   
-  input{
-  	height: 23px;
-  }
-  /deep/ .el-select{
-  	width: 150px;
-  	margin-left: 35%;
-  }
-  /deep/ .el-input__inner{
-	height: 30px;
-  }
-  /deep/ .el-input__suffix{
-  	padding-top: 5px;
-  }
-  /deep/ .el-button{
-  	padding: 7px 10px;
-  }
-}
-//经纪机构上面经纪机构及合同信息仨表格
-.makeBargain,.brokerageTable,.contractTable{    
-  border-color: #f3f3f3;
-  width: 100%;
-  tr{
-  	td{
-  	  font-size: 16px;
-  	  height: 42px;
-  	  width: 30%;
-  	  span{
-  	  	color: red;
-  	  }
-  	  textarea{
-  	  	width: 90%;
-  	  }
-  	  /deep/ .el-input{
-  	  	width: 60%;
-  	  }
-  	}
-  	.bgc{
-  	  background-color: #f5f7fa;
-  	  text-align: right;
-  	  width: 20%;
-  	  padding-right: 10px;
-  	}
-  }
+.msgBottomBtn{    //各个信息下面一行
+  height: 40px;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 //点击查看出现的表格外层容器
 .houseMsgContain,.sellerMsgContain,.sellerNewMsgContain,
 .buyerNewMsgContain,.buyerMsgContain,.selectBuyerMsgContain,
 .sellerCheckMsgContain,.buyerCheckMsgContain{
 	// border: 2px solid #409eff;
-	box-shadow: 0 0 5px 5px #9fcfff;
+	box-shadow: 0 0 4px 4px #9fcfff;
 	border-radius: 10px;
 	width: 60%;
 	position: fixed;
 	left: 20%;
 	top: 30%;
 	background-color: #fff;
+	padding-left: 10px;
+	padding-bottom: 10px;
+	padding-right: 10px;
 	z-index: 10;
 	.el-button{
 	  float: right;
+	  margin-top: 10px;
+	  margin-left: 5px;
 	}
 }
 //点击查看出现的表格
@@ -1952,13 +2061,16 @@ export default {
   	td{
   	  font-size: 16px;
   	  height: 30px;
-  	  // border: 1px solid red;
+  	  width: 30%;
+  	  /deep/ .el-input{
+  	    width: 80%;
+      }
   	  textarea{
   	  	width: 90%;
   	  }
   	}
   	.bgc{
-  	  background-color: #e8edff;
+  	  background-color: #f5f7fa;
   	  text-align: right;
   	  width: 20%;
   	  padding-right: 10px;
@@ -1966,6 +2078,28 @@ export default {
   	span{
   	  color: red;
   	}
+  }
+}
+//选择买方操作框按钮
+.selectBuyerOperate{   
+  /deep/ .el-select{
+  	width: 150px;
+  	margin-left: 35%;
+  }
+  /deep/ .el-input{
+  	width: 150px;
+	height: 30px;
+  }
+  /deep/ .el-input__inner{
+	height: 30px;
+  }
+  /deep/ .el-input__suffix{
+  	padding-top: 5px;
+  }
+  /deep/ .el-button{
+  	padding: 7px 10px;
+  	margin-top: 0px;
+  	margin-bottom: 10px;
   }
 }
 //遮罩
@@ -1981,9 +2115,13 @@ export default {
 }
 //底部返回按钮
 .footer{
-  margin-top: 10px;
+  width: 80%;
+  margin: auto;
+  margin-top: 20px;
+  height: 50px;
   /deep/ .el-button{
   	float: right;
+  	margin-left: 5px;
   }
 }
 </style>

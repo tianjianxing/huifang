@@ -42,7 +42,7 @@
 	    <el-table-column
 	      prop="contractNum"
 	      label="合同编号"
-	      width="200"
+	      width="180"
 	      align="center">
 	    </el-table-column>
 	    <el-table-column
@@ -60,19 +60,19 @@
 	    <el-table-column
 	      prop="houseMsg"
 	      label="房屋信息"
-	      width="220"
+	      width="200"
 	      align="center">
 	    </el-table-column>
 	    <el-table-column
 	      prop="seller"
 	      label="出卖人"
-	      width="100"
+	      width="80"
 	      align="center">
 	    </el-table-column>
 	    <el-table-column
 	      prop="buyer"
 	      label="买受人"
-	      width="100"
+	      width="80"
 	      align="center">
 	    </el-table-column>
 	    <el-table-column
@@ -94,11 +94,12 @@
 	      width="350">
 	      <template slot-scope="scope">
 	      	<router-link to="/contractAmend">
-	          <el-button class="operate" type="success" icon="el-icon-edit">修改</el-button>
+	          <el-button v-if="scope.row.status == '初始'" class="operate" :style="{display: amendBtn}" type="success" icon="el-icon-edit">修改</el-button>
 	        </router-link>
-			<el-button class="operate" type="danger" @click="del" icon="el-icon-delete">删除</el-button>
-			<el-button class="operate" type="primary" icon="el-icon-upload">提交</el-button>
-			<el-button class="operate" type="info" icon="el-icon-close">撤销</el-button>
+			<el-button v-if="scope.row.status == '初始'"  class="operate" type="danger" @click="del(scope.$index,scope.row)" icon="el-icon-delete">删除</el-button>
+			<el-button v-if="scope.row.status == '初始'" class="operate" type="primary" icon="el-icon-upload">提交</el-button>
+			<el-button v-if="scope.row.status == '初始'" class="operate" type="info" @click="repeal(scope.$index,scope.row)" icon="el-icon-close">撤销</el-button>
+			<el-button v-else-if="scope.row.status == '已备案'" class="operate" type="info" @click="repeal(scope.$index,scope.row)" icon="el-icon-close">撤销</el-button>
 	        <router-link to="/contractCheck">
 	          <el-button class="operate" type="warning" icon="el-icon-view">查看</el-button>
 	    	</router-link>
@@ -171,7 +172,7 @@ export default {
           seller: '孙建波',
           buyer: '12e1',
           signDate: '2018-03-08',
-          status: '初始',
+          status: '正在审批',
           operate: ''
         }, {
           contractNum: '201803080016',
@@ -191,7 +192,7 @@ export default {
           seller: '孙建波',
           buyer: '12e1',
           signDate: '2018-03-08',
-          status: '初始',
+          status: '备案',
           operate: ''
         }, {
           contractNum: '201803080016',
@@ -211,7 +212,7 @@ export default {
           seller: '孙建波',
           buyer: '12e1',
           signDate: '2018-03-08',
-          status: '初始',
+          status: '备案',
           operate: ''
         }, {
           contractNum: '201803080016',
@@ -231,7 +232,7 @@ export default {
           seller: '孙建波',
           buyer: '12e1',
           signDate: '2018-03-08',
-          status: '初始',
+          status: '正在审批',
           operate: ''
         }, {
           contractNum: '201803080016',
@@ -241,37 +242,7 @@ export default {
           seller: '孙建波',
           buyer: '12e1',
           signDate: '2018-03-08',
-          status: '初始',
-          operate: ''
-        }, {
-          contractNum: '201803080016',
-          zoneCode: '滨州市',
-          propRegCode: '2011110794',
-          houseMsg: '滨州市黄河六路566号',        
-          seller: '孙建波',
-          buyer: '12e1',
-          signDate: '2018-03-08',
-          status: '初始',
-          operate: ''
-        }, {
-          contractNum: '201803080016',
-          zoneCode: '滨州市',
-          propRegCode: '2011110794',
-          houseMsg: '滨州市黄河六路566号',        
-          seller: '孙建波',
-          buyer: '12e1',
-          signDate: '2018-03-08',
-          status: '初始',
-          operate: ''
-        }, {
-          contractNum: '201803080016',
-          zoneCode: '滨州市',
-          propRegCode: '2011110794',
-          houseMsg: '滨州市黄河六路566号',        
-          seller: '孙建波',
-          buyer: '12e1',
-          signDate: '2018-03-08',
-          status: '初始',
+          status: '已审批',
           operate: ''
         }, {
           contractNum: '201803080016',
@@ -291,33 +262,68 @@ export default {
           seller: '孙建波',
           buyer: '12e1',
           signDate: '2018-03-08',
+          status: '初始',
+          operate: ''
+        }, {
+          contractNum: '201803080016',
+          zoneCode: '滨州市',
+          propRegCode: '2011110794',
+          houseMsg: '滨州市黄河六路566号',        
+          seller: '孙建波',
+          buyer: '12e1',
+          signDate: '2018-03-08',
+          status: '已审批',
+          operate: ''
+        }, {
+          contractNum: '201803080016',
+          zoneCode: '滨州市',
+          propRegCode: '2011110794',
+          houseMsg: '滨州市黄河六路566号',        
+          seller: '孙建波',
+          buyer: '12e1',
+          signDate: '2018-03-08',
           status: '撤销',
+          operate: ''
+        }, {
+          contractNum: '201803080016',
+          zoneCode: '滨州市',
+          propRegCode: '2011110794',
+          houseMsg: '滨州市黄河六路566号',        
+          seller: '孙建波',
+          buyer: '12e1',
+          signDate: '2018-03-08',
+          status: '审批不通过',
           operate: ''
         }],
         pagesSize: [12, 24, 36, 48],    //选择几条为一组
         pageSize: 12,    //每页多少条
         totalNum: 0,    //总条数
         currentPage: 1,    //默认显示页数
-        tableDataTwo: []   
+        tableDataTwo: [],
+        amendBtn: 'inline-block'   
       }
     },
   mounted() {
-  	console.log(this.tableData);
-  	console.log(this.tableData.length);
+  	// console.log(this.tableData);
+  	// console.log(this.tableData.length);
+  	
   	this.tableDataTwo = this.tableData;
   	this.totalNum = this.tableData.length;
   	this.tableDataTwo = this.tableData.slice(this.pageSize * (this.currentPage - 1), this.currentPage * this.pageSize);
+  	if(this.repealStatus == '撤销') {
+  	  // this.amendBtn = 'none';
+  	}
   },
   methods: {
     handleSizeChange(val) {    //参数值表示每页多少条
-      console.log(`每页 ${val} 条`);
-      console.log(this.tableDataTwo);
+      // console.log(`每页 ${val} 条`);
+      // console.log(this.tableDataTwo);
       this.pageSize = val;
       this.tableDataTwo = this.tableData.slice(this.pageSize * (this.currentPage - 1), this.currentPage * val);
     },
     handleCurrentChange(val) {    //参数值表示当前页
-      console.log(`当前页: ${val}`);
-      console.log(val);
+      // console.log(`当前页: ${val}`);
+      // console.log(val);
       this.currentPage = val;
       this.tableDataTwo = this.tableData.slice(this.pageSize * (this.currentPage - 1), this.pageSize * val);
     },
@@ -329,7 +335,7 @@ export default {
       }
         return '';
     },
-    del() {
+    del(index,row) {    //模拟删除只能删除表面，死数据并没有消失，所以无法彻底删除
       this.$confirm('是否删除本条合同?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -339,10 +345,36 @@ export default {
           type: 'success',
           message: '删除成功!'
         });
+        console.log(index);
+        this.tableData.splice(index,1);
+        this.totalNum = this.tableData.length;
+        this.tableDataTwo = this.tableData.slice(this.pageSize * (this.currentPage - 1), this.currentPage * this.pageSize);
       }).catch(() => {
         this.$message({
           type: 'info',
           message: '已取消删除'
+        });          
+      });
+    },
+    repeal(index,row) {
+      this.$confirm('是否撤销本条合同?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.$message({
+          type: 'success',
+          message: '撤销成功!'
+        });
+        console.log(index);
+        console.log(row);
+        console.log(row.operate);
+        row.status = "撤销";
+        console.log(this.tableDataTwo);
+      }).catch(() => {
+        this.$message({
+          type: 'info',
+          message: '已取消撤销'
         });          
       });
     },
@@ -377,6 +409,7 @@ export default {
 
 <style scoped lang="less">
 .contain{
+  padding: 0 50px;
   .header{
   	display: flex;
   	flex-wrap: nowrap;
@@ -420,11 +453,11 @@ export default {
 	}
 	.button{
 	  display: inline-block;
-	  width: 150px;
+	  width: 180px;
 	  float: right;
 	}
 	.el-button{
-	  padding: 7px 2px;
+	  padding: 7px 9px;
 	  margin: 0px 5px;
 	  float: right;
 	}
@@ -438,13 +471,14 @@ export default {
 	  margin: 0;
 	}
 	/deep/ .evenRowColor{
-	  background-color: #e8edff;
+	  background-color: #f5f7fa;
 	}
 	/deep/ .el-table td{
   	  padding: 11px 0;
   	}
   	/deep/ .el-table th, .el-table tr{
-  	  background-color: #22678d;
+  	  background-color: #408be7;
+  	  color: #fff;
   	}
   } 
 }
